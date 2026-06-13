@@ -26,8 +26,24 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
+const allowedOrigins = new Set(
+  [process.env.FRONTEND_URL, 'http://localhost:3000'].filter(Boolean)
+);
+
+const isAllowedOrigin = (origin) => {
+  if (!origin) return true;
+  if (allowedOrigins.has(origin)) return true;
+  return /^https:\/\/[\w.-]+\.vercel\.app$/.test(origin);
+};
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin(origin, callback) {
+    if (isAllowedOrigin(origin)) {
+      callback(null, origin || true);
+    } else {
+      callback(new Error(`CORS blocked for origin: ${origin}`));
+    }
+  },
   credentials: true,
 }));
 app.use(express.json({ limit: '10mb' }));
