@@ -21,6 +21,10 @@ connectDB();
 
 const app = express();
 
+if (process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+}
+
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:3000',
