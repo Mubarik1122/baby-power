@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-const { startMemoryMongo } = require('./memoryDb');
 
 const connectDB = async () => {
   try {
     let uri = process.env.MONGODB_URI;
 
     if (process.env.USE_MEMORY_DB === 'true') {
+      const { startMemoryMongo } = require('./memoryDb');
       uri = await startMemoryMongo();
     }
 
