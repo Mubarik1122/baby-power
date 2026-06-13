@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: 'http', hostname: 'localhost', pathname: '/uploads/**' },
       { protocol: 'https', hostname: '**' },
+      { protocol: 'https', hostname: 'baby-power-api.onrender.com', pathname: '/uploads/**' },
     ],
   },
 };
