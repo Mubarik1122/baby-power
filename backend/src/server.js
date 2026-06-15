@@ -26,9 +26,29 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
-const allowedOrigins = new Set(
-  [process.env.FRONTEND_URL, 'http://localhost:3000'].filter(Boolean)
-);
+function buildAllowedOrigins() {
+  const origins = new Set(['http://localhost:3000']);
+  const frontendUrl = process.env.FRONTEND_URL;
+
+  if (frontendUrl) {
+    origins.add(frontendUrl);
+
+    try {
+      const url = new URL(frontendUrl);
+      if (url.hostname.startsWith('www.')) {
+        origins.add(`${url.protocol}//${url.hostname.slice(4)}${url.port ? `:${url.port}` : ''}`);
+      } else {
+        origins.add(`${url.protocol}//www.${url.hostname}${url.port ? `:${url.port}` : ''}`);
+      }
+    } catch {
+      // Ignore invalid FRONTEND_URL values.
+    }
+  }
+
+  return origins;
+}
+
+const allowedOrigins = buildAllowedOrigins();
 
 const isAllowedOrigin = (origin) => {
   if (!origin) return true;
