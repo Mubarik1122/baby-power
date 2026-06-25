@@ -10,9 +10,9 @@ interface LogoProps {
 }
 
 const sizes = {
-  sm: { width: 130, height: 76, img: 'h-9 w-auto' },
-  md: { width: 165, height: 97, img: 'h-11 lg:h-12 w-auto' },
-  lg: { width: 210, height: 124, img: 'h-14 lg:h-[4.25rem] w-auto' },
+  sm: { width: 120, height: 71, img: 'h-10 w-auto' },
+  md: { width: 150, height: 88, img: 'h-11 lg:h-12 w-auto' },
+  lg: { width: 180, height: 106, img: 'h-12 lg:h-14 w-auto' },
 };
 
 export default function Logo({ className, size = 'md', href = '/', priority }: LogoProps) {
@@ -20,7 +20,7 @@ export default function Logo({ className, size = 'md', href = '/', priority }: L
   const image = (
     <Image
       src="/logo.png"
-      alt="Baby Power — Wholesale Clothing"
+      alt="Baby Power — Clothes and Accessories"
       width={s.width}
       height={s.height}
       className={cn(s.img, 'object-contain', className)}

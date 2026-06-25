@@ -1,6 +1,5 @@
-import Image from 'next/image';
+import ApiImage from '@/components/ui/ApiImage';
 import Link from 'next/link';
-import { getImageUrl } from '@/lib/api';
 
 interface Props {
   images: string[];
@@ -48,8 +47,8 @@ export default function ImageMoodBoard({
         <div className="grid grid-cols-4 auto-rows-[120px] sm:auto-rows-[140px] lg:auto-rows-[160px] gap-2 lg:gap-3">
           {tiles.map((img, i) => (
             <div key={i} className={`relative overflow-hidden group ${layout[i] || 'col-span-1 row-span-1'}`}>
-              <Image
-                src={getImageUrl(img)}
+              <ApiImage
+                src={img}
                 alt=""
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700"

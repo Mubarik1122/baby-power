@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Libre_Baskerville, Nunito } from 'next/font/google';
 import ConditionalLayout from '@/components/layout/ConditionalLayout';
 import { OrganizationSchema } from '@/components/seo/SEOHead';
+import { getSettings } from '@/lib/api';
 import './globals.css';
 
 const libreBaskerville = Libre_Baskerville({
@@ -25,12 +26,25 @@ export const metadata: Metadata = {
   keywords: 'wholesale baby clothing, baby bodysuits, baby rompers, baby power wholesale',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  let whatsappNumber = '';
+  let whatsappMessage = '';
+
+  try {
+    const res = await getSettings();
+    whatsappNumber = res.data.whatsappNumber || '';
+    whatsappMessage = res.data.whatsappMessage || '';
+  } catch {
+    // Button can still use NEXT_PUBLIC_WHATSAPP_NUMBER fallback.
+  }
+
   return (
-    <html lang="en" className={`${libreBaskerville.variable} ${nunito.variable}`} data-scroll-behavior="smooth">
-      <body className="min-h-screen flex flex-col antialiased">
+    <html lang="en" className={`${libreBaskerville.variable} ${nunito.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
+      <body className="min-h-screen flex flex-col antialiased" suppressHydrationWarning>
         <OrganizationSchema />
-        <ConditionalLayout>{children}</ConditionalLayout>
+        <ConditionalLayout whatsappNumber={whatsappNumber} whatsappMessage={whatsappMessage}>
+          {children}
+        </ConditionalLayout>
       </body>
     </html>
   );

@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
+import ApiImage from '@/components/ui/ApiImage';
 import { X } from 'lucide-react';
-import { createBanner, updateBanner, getImageUrl } from '@/lib/api';
+import { createBanner, updateBanner } from '@/lib/api';
 import { getToken } from '@/lib/auth';
 import { Banner } from '@/lib/types';
 import Button from '@/components/ui/Button';
@@ -89,7 +89,7 @@ export default function BannerForm({ banner, onClose, onSave }: Props) {
 
           {banner?.image && (
             <div className="relative aspect-[16/6] rounded-xl overflow-hidden border">
-              <Image src={getImageUrl(banner.image)} alt={banner.title} fill className="object-cover" />
+              <ApiImage src={banner.image} alt={banner.title} fill className="object-cover" />
             </div>
           )}
 

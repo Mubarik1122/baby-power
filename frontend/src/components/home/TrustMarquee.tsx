@@ -3,7 +3,7 @@ const items = [
   'Exclusive Pricing',
   'Industry Expertise',
   'OEKO-TEX Certified',
-  'Global Shipping',
+  'UK & NI Shipping',
   'Low MOQ Available',
 ];
 

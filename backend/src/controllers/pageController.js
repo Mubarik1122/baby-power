@@ -19,7 +19,13 @@ exports.createPage = async (req, res) => {
 };
 
 exports.updatePage = async (req, res) => {
-  const page = await Page.findByIdAndUpdate(req.params.id, req.body, {
+  const { title, subtitle, content, seo, extras } = req.body;
+  const update = { title, content };
+  if (subtitle !== undefined) update.subtitle = subtitle;
+  if (seo) update.seo = seo;
+  if (extras !== undefined) update.extras = extras;
+
+  const page = await Page.findByIdAndUpdate(req.params.id, update, {
     new: true,
     runValidators: true,
   });

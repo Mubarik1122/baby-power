@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import Image from 'next/image';
-import { getProducts, getCategories, getFAQs, getBanners, getImageUrl } from '@/lib/api';
-import { Product, Category, FAQ, Banner } from '@/lib/types';
+import ApiImage from '@/components/ui/ApiImage';
+import { getProducts, getCategories, getFAQs, getBanners, getPageBySlug } from '@/lib/api';
+import { Product, Category, FAQ, Banner, Page } from '@/lib/types';
 import CategoryCard from '@/components/ui/CategoryCard';
 import SectionTitle from '@/components/ui/SectionTitle';
 import Reveal from '@/components/ui/Reveal';
@@ -16,6 +16,7 @@ import ProductShowcaseSection from '@/components/ui/ProductShowcaseSection';
 import Button from '@/components/ui/Button';
 import ApiUnavailable from '@/components/ui/ApiUnavailable';
 import TrustBadges from '@/components/ui/TrustBadges';
+import { getRootCategories } from '@/lib/categories';
 
 export const revalidate = 60;
 
@@ -36,21 +37,24 @@ export default async function HomePage() {
   let categories: Category[] = [];
   let faqs: FAQ[] = [];
   let banners: Banner[] = [];
+  let homeStory: Page | null = null;
   let apiAvailable = true;
 
   try {
-    const [fp, all, cat, faq, ban] = await Promise.all([
+    const [fp, all, cat, faq, ban, story] = await Promise.all([
       getProducts({ featured: 'true', limit: '8' }),
       getProducts({ limit: '12' }),
       getCategories(),
       getFAQs(),
       getBanners(),
+      getPageBySlug('home-story').then((res) => res.data).catch(() => null),
     ]);
     featuredProducts = fp.data || [];
     latestProducts = all.data || [];
     categories = cat.data || [];
     faqs = (faq.data || []).slice(0, 6);
     banners = ban.data || [];
+    homeStory = story;
   } catch {
     apiAvailable = false;
   }
@@ -61,6 +65,7 @@ export default async function HomePage() {
     ...FALLBACK_IMAGES,
   ];
 
+  const rootCategories = getRootCategories(categories);
   const storyImage = moodImages[0] || FALLBACK_IMAGES[0];
 
   return (
@@ -91,7 +96,7 @@ export default async function HomePage() {
 
       <StatsRow />
 
-      {categories.length > 0 && (
+      {rootCategories.length > 0 && (
         <section className="py-14 lg:py-20 bg-surface border-t border-border relative grain">
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Reveal>
@@ -103,7 +108,7 @@ export default async function HomePage() {
             </Reveal>
 
             <div className="grid md:grid-cols-12 gap-4 lg:gap-5 mb-5">
-              {categories.slice(0, 2).map((cat, i) => (
+              {rootCategories.slice(0, 2).map((cat, i) => (
                 <Reveal key={cat._id} delay={(i + 1) as 1 | 2} className="md:col-span-6">
                   <CategoryCard category={cat} variant="overlay" large />
                 </Reveal>
@@ -111,7 +116,7 @@ export default async function HomePage() {
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10 lg:gap-x-6 lg:gap-y-12">
-              {categories.map((cat, i) => (
+              {rootCategories.map((cat, i) => (
                 <Reveal key={cat._id} delay={((i % 4) + 1) as 1 | 2 | 3 | 4}>
                   <CategoryCard category={cat} variant="stacked" />
                 </Reveal>
@@ -131,24 +136,24 @@ export default async function HomePage() {
             <Reveal className="lg:col-span-5">
               <div className="grid grid-cols-2 gap-3">
                 <div className="relative aspect-[3/4] overflow-hidden col-span-2">
-                  <Image src={getImageUrl(storyImage)} alt="" fill className="object-cover" sizes="40vw" />
+                  <ApiImage src={storyImage} alt="" fill className="object-cover" sizes="40vw" />
                 </div>
                 {moodImages.slice(1, 3).map((img, i) => (
                   <div key={i} className="relative aspect-square overflow-hidden">
-                    <Image src={getImageUrl(img)} alt="" fill className="object-cover" sizes="20vw" />
+                    <ApiImage src={img} alt="" fill className="object-cover" sizes="20vw" />
                   </div>
                 ))}
               </div>
             </Reveal>
             <Reveal className="lg:col-span-7" delay={2}>
-              <p className="text-[10px] uppercase tracking-[0.35em] text-gold mb-4">Our Story</p>
+              <p className="text-[10px] uppercase tracking-[0.35em] text-gold mb-4">
+                {(homeStory?.extras as { label?: string })?.label || 'Our Story'}
+              </p>
               <h2 className="font-display text-3xl lg:text-[2.75rem] text-secondary tracking-wide leading-tight">
-                Crafting Comfort for Little Ones
+                {homeStory?.title || 'Crafting Comfort for Little Ones'}
               </h2>
               <p className="mt-6 text-muted text-sm leading-[1.9]">
-                Baby Power is a leading wholesale baby clothing manufacturer serving discerning retailers
-                across 30+ countries. From organic cotton bodysuits to cosy fleece sleepsuits, every garment
-                reflects our commitment to quality, safety, and timeless design.
+                {homeStory?.content || 'Baby Power is a leading wholesale baby clothing manufacturer serving discerning retailers across the UK and Northern Ireland. From organic cotton bodysuits to cosy fleece sleepsuits, every garment reflects our commitment to quality, safety, and timeless design.'}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link href="/about"><Button variant="outline">About Us</Button></Link>
@@ -195,7 +200,7 @@ export default async function HomePage() {
                       className="flex items-center gap-4 p-4 bg-surface border border-border hover:border-primary transition-colors group"
                     >
                       <div className="relative w-16 h-16 shrink-0 overflow-hidden">
-                        {cat.image && <Image src={getImageUrl(cat.image)} alt="" fill className="object-cover group-hover:scale-105 transition-transform" sizes="64px" />}
+                        {cat.image && <ApiImage src={cat.image} alt="" fill className="object-cover group-hover:scale-105 transition-transform" sizes="64px" />}
                       </div>
                       <div>
                         <p className="font-display text-secondary group-hover:text-primary transition-colors">{cat.name}</p>

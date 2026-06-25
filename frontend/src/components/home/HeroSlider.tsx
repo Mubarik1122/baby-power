@@ -1,10 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import ApiImage from '@/components/ui/ApiImage';
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
-import { getImageUrl } from '@/lib/api';
 import { Banner } from '@/lib/types';
 
 const fallbackSlides: Banner[] = [
@@ -66,11 +65,12 @@ export default function HeroSlider({ banners = [] }: Props) {
           >
             {s.image ? (
               <>
-                <Image
-                  src={getImageUrl(s.image)}
+                <ApiImage
+                  src={s.image}
                   alt={s.title}
                   fill
                   priority={i === 0}
+                  loading={i === 0 ? 'eager' : 'lazy'}
                   className={`object-cover object-center ${i === current ? 'animate-ken-burns' : ''}`}
                   sizes="100vw"
                 />

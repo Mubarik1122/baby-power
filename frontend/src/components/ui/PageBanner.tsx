@@ -1,5 +1,4 @@
-import Image from 'next/image';
-import { getImageUrl } from '@/lib/api';
+import ApiImage from '@/components/ui/ApiImage';
 
 interface PageBannerProps {
   title: string;
@@ -9,22 +8,18 @@ interface PageBannerProps {
 
 export default function PageBanner({ title, subtitle, image }: PageBannerProps) {
   const hasImage = Boolean(image);
-  const imageSrc = image?.startsWith('http') || image?.startsWith('/')
-    ? image!
-    : getImageUrl(image!);
 
   return (
     <section className="relative border-b border-border py-16 lg:py-24 overflow-hidden grain min-h-[220px] lg:min-h-[280px] flex items-center">
       {hasImage ? (
         <>
-          <Image
-            src={imageSrc}
+          <ApiImage
+            src={image!}
             alt=""
             fill
             className="object-cover object-center"
             priority
             sizes="100vw"
-            unoptimized
           />
           <div className="absolute inset-0 bg-gradient-to-r from-secondary/50 via-secondary/25 to-transparent" />
         </>

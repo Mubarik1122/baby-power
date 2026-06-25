@@ -1,11 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useRef } from 'react';
+import ApiImage from '@/components/ui/ApiImage';
 import { Product } from '@/lib/types';
-import { getImageUrl } from '@/lib/api';
 
 interface Props {
   products: Product[];
@@ -60,8 +59,8 @@ export default function RecentProductsSlider({ products, title = 'Recent Product
               >
                 <div className="relative aspect-[4/5] overflow-hidden bg-linen border border-border mb-3">
                   {img ? (
-                    <Image
-                      src={getImageUrl(img)}
+                    <ApiImage
+                      src={img}
                       alt={product.name}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-500"

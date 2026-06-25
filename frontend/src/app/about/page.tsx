@@ -1,41 +1,72 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import ApiImage from '@/components/ui/ApiImage';
 import { Metadata } from 'next';
 import { generateSEO } from '@/components/seo/SEOHead';
 import PageBanner from '@/components/ui/PageBanner';
 import CategoryScrollStrip from '@/components/home/CategoryScrollStrip';
 import Button from '@/components/ui/Button';
-import { getCategories, getImageUrl } from '@/lib/api';
-import { Category } from '@/lib/types';
-
-export const metadata: Metadata = generateSEO({
-  title: 'About Us',
-  description: 'Learn about Baby Power — a leading wholesale baby clothing manufacturer serving trade customers worldwide.',
-  path: '/about',
-});
+import { getCategories, getPageBySlug } from '@/lib/api';
+import { Category, Page } from '@/lib/types';
 
 export const revalidate = 60;
 
 const ABOUT_BANNER = '/banners/about-hero.jpg?v=4';
-
-const STORY_IMAGE =
+const FALLBACK_STORY_IMAGE =
   'https://cdn.shopify.com/s/files/1/0873/9861/3317/collections/Untitled_design_6.jpg?v=1768585452';
+
+const defaultCards = [
+  { title: 'Our Mission', desc: 'To provide retailers across the UK and Northern Ireland with premium quality baby clothing at competitive wholesale prices, while maintaining the highest standards of safety and sustainability.' },
+  { title: 'Our Vision', desc: 'To become the most trusted wholesale baby clothing partner globally, known for innovation, quality, and exceptional customer service.' },
+  { title: 'Manufacturing', desc: 'Our state-of-the-art manufacturing facility produces over 500 styles annually, using OEKO-TEX certified materials and ethical production practices.' },
+  { title: 'Why Choose Us', desc: '15+ years of experience, 1000+ satisfied retail partners, competitive MOQs, and dedicated account management.' },
+];
+
+type AboutExtras = {
+  storyImage?: string;
+  sectionLabel?: string;
+  sectionHeading?: string;
+  cards?: Array<{ title: string; desc: string }>;
+};
+
+export async function generateMetadata(): Promise<Metadata> {
+  try {
+    const res = await getPageBySlug('about');
+    const page = res.data;
+    return generateSEO({
+      title: page.seo?.metaTitle || page.title,
+      description: page.seo?.metaDescription || 'About Baby Power wholesale baby clothing.',
+      path: '/about',
+    });
+  } catch {
+    return generateSEO({
+      title: 'About Us',
+      description: 'Learn about Baby Power wholesale baby clothing.',
+      path: '/about',
+    });
+  }
+}
 
 export default async function AboutPage() {
   let categories: Category[] = [];
+  let page: Page | null = null;
 
   try {
-    const res = await getCategories();
-    categories = res.data || [];
+    const [catRes, pageRes] = await Promise.all([getCategories(), getPageBySlug('about')]);
+    categories = catRes.data || [];
+    page = pageRes.data;
   } catch {
-    // category bar hidden if API unavailable
+    // fall back to defaults below
   }
+
+  const extras = (page?.extras || {}) as AboutExtras;
+  const cards = extras.cards?.length ? extras.cards : defaultCards;
+  const storyImage = extras.storyImage || FALLBACK_STORY_IMAGE;
 
   return (
     <div>
       <PageBanner
-        title="About Us"
-        subtitle="Crafting comfort for little ones since 2010 — trusted by 1,000+ retail partners"
+        title={page?.title || 'About Us'}
+        subtitle={page?.subtitle || 'Crafting comfort for little ones since 2010 — trusted by 1,000+ retail partners'}
         image={ABOUT_BANNER}
       />
       <CategoryScrollStrip categories={categories} title="Shop by Category" />
@@ -45,8 +76,8 @@ export default async function AboutPage() {
           <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-5">
               <div className="relative aspect-[4/5] overflow-hidden frame-corners">
-                <Image
-                  src={getImageUrl(STORY_IMAGE)}
+                <ApiImage
+                  src={storyImage}
                   alt="Baby Power wholesale baby clothing"
                   fill
                   className="object-cover"
@@ -56,21 +87,22 @@ export default async function AboutPage() {
               </div>
             </div>
             <div className="lg:col-span-7">
-              <p className="text-[10px] uppercase tracking-[0.35em] text-gold mb-4">Who We Are</p>
+              <p className="text-[10px] uppercase tracking-[0.35em] text-gold mb-4">
+                {extras.sectionLabel || 'Who We Are'}
+              </p>
               <h2 className="font-display text-3xl lg:text-4xl text-secondary tracking-wide mb-6">
-                Your Wholesale Baby Clothing Partner
+                {extras.sectionHeading || 'Your Wholesale Baby Clothing Partner'}
               </h2>
-              <div className="space-y-4 text-muted text-sm leading-relaxed">
-                <p>
-                  Baby Power is a UK-based wholesale baby clothing manufacturer dedicated to providing retailers
-                  with premium quality garments at competitive trade prices. Founded in 2010, we have grown from
-                  a small family business to a trusted supplier serving over 1,000 retail partners across 30+ countries.
-                </p>
-                <p>
-                  Our extensive product range includes baby bodysuits, rompers, sleepsuits, clothing sets, blankets,
-                  and accessories — all crafted from the finest materials with meticulous attention to detail.
-                </p>
-              </div>
+              {page?.content ? (
+                <div className="space-y-4 text-muted text-sm leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: page.content }} />
+              ) : (
+                <div className="space-y-4 text-muted text-sm leading-relaxed">
+                  <p>
+                    Baby Power is a UK-based wholesale baby clothing manufacturer dedicated to providing retailers
+                    with premium quality garments at competitive trade prices.
+                  </p>
+                </div>
+              )}
               <div className="mt-8">
                 <Link href="/contact"><Button variant="outline">Contact Us</Button></Link>
               </div>
@@ -82,12 +114,7 @@ export default async function AboutPage() {
       <section className="py-14 lg:py-20 bg-cream border-t border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid sm:grid-cols-2 gap-6">
-            {[
-              { title: 'Our Mission', desc: 'To provide retailers worldwide with premium quality baby clothing at competitive wholesale prices, while maintaining the highest standards of safety and sustainability.' },
-              { title: 'Our Vision', desc: 'To become the most trusted wholesale baby clothing partner globally, known for innovation, quality, and exceptional customer service.' },
-              { title: 'Manufacturing', desc: 'Our state-of-the-art manufacturing facility produces over 500 styles annually, using OEKO-TEX certified materials and ethical production practices.' },
-              { title: 'Why Choose Us', desc: '15+ years of experience, 1000+ satisfied retail partners, competitive MOQs, OEM/ODM capabilities, and dedicated account management.' },
-            ].map((item) => (
+            {cards.map((item) => (
               <div key={item.title} className="bg-surface border border-border p-8">
                 <h3 className="font-display text-xl text-secondary mb-3">{item.title}</h3>
                 <p className="text-muted text-sm leading-relaxed">{item.desc}</p>

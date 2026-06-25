@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import ApiImage from '@/components/ui/ApiImage';
 import { Category } from '@/lib/types';
-import { getImageUrl } from '@/lib/api';
+import { getChildCategories, getRootCategories } from '@/lib/categories';
 
 interface Props {
   categories: Category[];
@@ -9,7 +9,8 @@ interface Props {
 }
 
 export default function CategoryScrollStrip({ categories, title = 'Shop by Category' }: Props) {
-  if (categories.length === 0) return null;
+  const displayCategories = getRootCategories(categories);
+  if (displayCategories.length === 0) return null;
 
   return (
     <section className="bg-surface border-b border-border py-5 lg:py-6">
@@ -22,7 +23,7 @@ export default function CategoryScrollStrip({ categories, title = 'Shop by Categ
           >
             All Products
           </Link>
-          {categories.map((cat) => (
+          {displayCategories.map((cat) => (
             <Link
               key={cat._id}
               href={`/shop/${cat.slug}`}
@@ -30,7 +31,7 @@ export default function CategoryScrollStrip({ categories, title = 'Shop by Categ
             >
               <div className="relative w-10 h-10 shrink-0 overflow-hidden bg-linen">
                 {cat.image ? (
-                  <Image src={getImageUrl(cat.image)} alt="" fill className="object-cover group-hover:scale-110 transition-transform duration-500" sizes="40px" />
+                  <ApiImage src={cat.image} alt="" fill className="object-cover group-hover:scale-110 transition-transform duration-500" sizes="40px" />
                 ) : (
                   <span className="absolute inset-0 flex items-center justify-center font-display text-primary text-lg">{cat.name.charAt(0)}</span>
                 )}

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard, Package, FolderOpen, Users, HelpCircle,
-  FileText, LogOut, Menu, X, ImageIcon,
+  FileText, LogOut, Menu, X, ImageIcon, Settings,
 } from 'lucide-react';
 import { useState } from 'react';
 import { removeToken } from '@/lib/auth';
@@ -19,6 +19,7 @@ const links = [
   { href: '/admin/leads', label: 'Leads', icon: Users },
   { href: '/admin/faqs', label: 'FAQs', icon: HelpCircle },
   { href: '/admin/pages', label: 'Pages', icon: FileText },
+  { href: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
 export default function AdminSidebar() {

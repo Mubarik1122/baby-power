@@ -6,6 +6,8 @@ const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const connectDB = require('./config/db');
+const { ensureContentPages } = require('./utils/ensureContentPages');
+const { ensureSiteSettings } = require('./utils/ensureSiteSettings');
 const errorHandler = require('./middleware/errorHandler');
 
 const authRoutes = require('./routes/authRoutes');
@@ -16,8 +18,13 @@ const faqRoutes = require('./routes/faqRoutes');
 const pageRoutes = require('./routes/pageRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
 const bannerRoutes = require('./routes/bannerRoutes');
+const settingsRoutes = require('./routes/settingsRoutes');
 
-connectDB();
+connectDB()
+  .then(() => Promise.all([ensureContentPages(), ensureSiteSettings()]))
+  .catch((err) => {
+    console.error('Failed to ensure default content:', err.message);
+  });
 
 const app = express();
 
@@ -98,6 +105,7 @@ app.use('/api/faqs', faqRoutes);
 app.use('/api/pages', pageRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/banners', bannerRoutes);
+app.use('/api/settings', settingsRoutes);
 
 app.use(errorHandler);
 

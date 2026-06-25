@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { getProducts, getCategories } from '@/lib/api';
 import { Product, Category, Pagination } from '@/lib/types';
+import { getChildCategories, getRootCategories } from '@/lib/categories';
 import ProductCard from '@/components/ui/ProductCard';
 import PageBanner from '@/components/ui/PageBanner';
 import Button from '@/components/ui/Button';
@@ -93,17 +94,32 @@ export default function ShopContent({ categorySlug }: { categorySlug?: string })
                   >
                     All Products
                   </button>
-                  {categories.map((cat) => (
-                    <button
-                      key={cat._id}
-                      onClick={() => handleCategoryChange(cat.slug)}
-                      className={`w-full text-left px-2 py-2 text-sm transition-colors ${
-                        selectedCategory === cat.slug ? 'text-primary font-medium' : 'text-muted hover:text-secondary'
-                      }`}
-                    >
-                      {cat.name}
-                    </button>
-                  ))}
+                  {getRootCategories(categories).map((parent) => {
+                    const children = getChildCategories(categories, parent._id);
+                    return (
+                      <div key={parent._id}>
+                        <button
+                          onClick={() => handleCategoryChange(parent.slug)}
+                          className={`w-full text-left px-2 py-2 text-sm transition-colors ${
+                            selectedCategory === parent.slug ? 'text-primary font-medium' : 'text-muted hover:text-secondary'
+                          }`}
+                        >
+                          {parent.name}
+                        </button>
+                        {children.map((child) => (
+                          <button
+                            key={child._id}
+                            onClick={() => handleCategoryChange(child.slug)}
+                            className={`w-full text-left pl-5 pr-2 py-2 text-sm transition-colors ${
+                              selectedCategory === child.slug ? 'text-primary font-medium' : 'text-muted hover:text-secondary'
+                            }`}
+                          >
+                            {child.name}
+                          </button>
+                        ))}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 

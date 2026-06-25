@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import ApiImage from '@/components/ui/ApiImage';
 import { Category } from '@/lib/types';
-import { getImageUrl } from '@/lib/api';
 
 interface CategoryCardProps {
   category: Category;
@@ -19,7 +18,7 @@ const placeholderGradients = [
 ];
 
 export default function CategoryCard({ category, variant = 'stacked', large = false }: CategoryCardProps) {
-  const imageUrl = category.image ? getImageUrl(category.image) : '';
+  const imagePath = category.image || '';
   const gradient = placeholderGradients[category.name.length % placeholderGradients.length];
 
   if (variant === 'overlay') {
@@ -28,8 +27,8 @@ export default function CategoryCard({ category, variant = 'stacked', large = fa
         href={`/shop/${category.slug}`}
         className="group relative block aspect-[4/5] overflow-hidden"
       >
-        {imageUrl ? (
-          <Image src={imageUrl} alt={category.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" sizes="33vw" />
+        {imagePath ? (
+          <ApiImage src={imagePath} alt={category.name} fill className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out" sizes="33vw" />
         ) : (
           <div className={`absolute inset-0 bg-gradient-to-br ${gradient}`} />
         )}
@@ -46,9 +45,9 @@ export default function CategoryCard({ category, variant = 'stacked', large = fa
   return (
     <Link href={`/shop/${category.slug}`} className="group block text-center">
       <div className={`relative overflow-hidden bg-linen mb-5 ${large ? 'aspect-[3/4]' : 'aspect-square'}`}>
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
+        {imagePath ? (
+          <ApiImage
+            src={imagePath}
             alt={category.name}
             fill
             className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"

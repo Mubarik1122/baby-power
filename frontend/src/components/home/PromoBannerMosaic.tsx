@@ -1,7 +1,6 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import ApiImage from '@/components/ui/ApiImage';
 import { Banner } from '@/lib/types';
-import { getImageUrl } from '@/lib/api';
 import Button from '@/components/ui/Button';
 
 interface Props {
@@ -26,8 +25,8 @@ export default function PromoBannerMosaic({ banners }: Props) {
               }`}
             >
               {banner.image ? (
-                <Image
-                  src={getImageUrl(banner.image)}
+                <ApiImage
+                  src={banner.image}
                   alt={banner.title}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-700"

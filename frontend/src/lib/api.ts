@@ -74,6 +74,14 @@ export const getPageBySlug = (slug: string) =>
 export const getBanners = (active = true) =>
   fetchAPI<{ success: boolean; data: import('./types').Banner[] }>(`/banners${active ? '' : '?active=false'}`);
 
+export const getSettings = () =>
+  fetchAPI<{ success: boolean; data: import('./types').SiteSettings }>('/settings');
+
+export const getAdminSettings = (token: string) =>
+  fetchAPI<{ success: boolean; data: import('./types').SiteSettings }>('/settings/admin', {
+    headers: authHeaders(token),
+  });
+
 export const submitContact = (data: Record<string, string>) =>
   fetchAPI('/leads/contact', { method: 'POST', body: JSON.stringify(data) });
 
@@ -185,6 +193,9 @@ export const deleteBanner = (token: string, id: string) =>
 
 export const toggleBanner = (token: string, id: string) =>
   fetchAPI(`/banners/${id}/toggle`, { method: 'PATCH', headers: authHeaders(token) });
+
+export const updateSettings = (token: string, data: Record<string, string | number>) =>
+  fetchAPI('/settings', { method: 'PUT', headers: authHeaders(token), body: JSON.stringify(data) });
 
 export function getImageUrl(path: string) {
   if (!path) return '';

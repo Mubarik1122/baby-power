@@ -1,4 +1,9 @@
 const Lead = require('../models/Lead');
+const {
+  sendLeadNotification,
+  buildContactEmail,
+  buildQuotationEmail,
+} = require('../utils/email');
 
 exports.createContactLead = async (req, res) => {
   const { name, email, phone, company, message } = req.body;
@@ -15,6 +20,15 @@ exports.createContactLead = async (req, res) => {
     company: company || '',
     message,
   });
+
+  try {
+    await sendLeadNotification(
+      `New contact request from ${name}`,
+      buildContactEmail(lead)
+    );
+  } catch (err) {
+    console.error('Contact email notification failed:', err.message);
+  }
 
   res.status(201).json({ success: true, data: lead, message: 'Contact request submitted' });
 };
@@ -53,6 +67,15 @@ exports.createQuotationLead = async (req, res) => {
     productSku: productSku || '',
     category: category || '',
   });
+
+  try {
+    await sendLeadNotification(
+      `New quotation request from ${name}`,
+      buildQuotationEmail(lead)
+    );
+  } catch (err) {
+    console.error('Quotation email notification failed:', err.message);
+  }
 
   res.status(201).json({ success: true, data: lead, message: 'Quotation request submitted' });
 };

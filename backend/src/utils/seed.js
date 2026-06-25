@@ -7,6 +7,8 @@ const Product = require('../models/Product');
 const FAQ = require('../models/FAQ');
 const Page = require('../models/Page');
 const Banner = require('../models/Banner');
+const { ensureSiteSettings } = require('./ensureSiteSettings');
+const { contentPages } = require('./ensureContentPages');
 
 // Images sourced from mnb-wholesale.com (Shopify CDN)
 const MNB = {
@@ -78,9 +80,9 @@ const products = [
 
 const faqs = [
   { question: 'What is the minimum order quantity (MOQ)?', answer: 'Our MOQ varies by product, typically starting from 30-100 pieces per style. Check individual product pages for specific MOQ requirements.', sortOrder: 1 },
-  { question: 'Do you ship internationally?', answer: 'Yes, we ship worldwide. Shipping costs and delivery times vary by destination. Contact us for a detailed quote.', sortOrder: 2 },
+  { question: 'Do you ship internationally?', answer: 'We deliver wholesale orders across the United Kingdom and Northern Ireland. Contact us for delivery options and lead times.', sortOrder: 2 },
   { question: 'What payment methods do you accept?', answer: 'We accept bank transfers, letters of credit, and other standard B2B payment methods. Payment terms are discussed during the quotation process.', sortOrder: 3 },
-  { question: 'Can I request custom designs?', answer: 'Absolutely! We offer OEM/ODM services. Share your design requirements and our team will provide a custom quotation.', sortOrder: 4 },
+  { question: 'How do I place a wholesale order?', answer: 'Browse our catalogue, request a quotation for the styles you need, and our team will confirm pricing, MOQs, and delivery details.', sortOrder: 4 },
   { question: 'What is your production lead time?', answer: 'Standard orders are typically fulfilled within 15-30 business days. Custom orders may require additional time.', sortOrder: 5 },
   { question: 'Do you provide samples before bulk orders?', answer: 'Yes, we offer sample orders for quality verification. Sample costs can be credited against your first bulk order.', sortOrder: 6 },
 ];
@@ -109,15 +111,15 @@ const shippingPolicy = {
   slug: 'shipping-policy',
   title: 'Shipping Policy',
   content: `<h2>Shipping Policy</h2>
-<p>Baby Power ships wholesale orders worldwide. Shipping terms are agreed during the quotation and order confirmation process.</p>
+<p>Baby Power delivers wholesale orders across the United Kingdom and Northern Ireland. Shipping terms are agreed during the quotation and order confirmation process.</p>
 <h3>Dispatch Times</h3>
-<p>Standard orders are typically dispatched within 15–30 business days after payment confirmation. Custom or seasonal orders may require additional lead time.</p>
-<h3>Shipping Methods</h3>
-<p>We work with trusted freight partners for road, sea, and air shipments. Your account manager will recommend the best option based on order size, destination, and budget.</p>
+<p>Standard orders are typically dispatched within 15–30 business days after payment confirmation. Seasonal orders may require additional lead time.</p>
+<h3>Delivery Areas</h3>
+<p>We ship to addresses throughout the UK mainland and Northern Ireland. Your account manager will confirm delivery options and estimated timescales for your order.</p>
 <h3>Delivery & Tracking</h3>
-<p>Tracking information is provided once your order leaves our warehouse. Delivery times vary by destination and carrier.</p>
+<p>Tracking information is provided once your order leaves our warehouse. Delivery times vary by location and carrier.</p>
 <h3>Shipping Costs</h3>
-<p>Shipping is quoted separately based on volume, weight, and destination. Contact our team for a detailed freight estimate with your quotation.</p>`,
+<p>Shipping is quoted separately based on volume, weight, and destination within the UK and Northern Ireland. Contact our team for a detailed freight estimate with your quotation.</p>`,
   seo: {
     metaTitle: 'Shipping Policy | Baby Power Wholesale',
     metaDescription: 'Shipping and delivery information for Baby Power wholesale orders.',
@@ -137,7 +139,7 @@ const termsOfService = {
 <h3>Pricing</h3>
 <p>Quoted prices are valid for the period stated on the quotation. Prices exclude shipping, duties, and taxes unless otherwise agreed.</p>
 <h3>Intellectual Property</h3>
-<p>Product designs, branding, and marketing materials remain the property of Baby Power unless otherwise agreed in a written OEM/ODM contract.</p>`,
+<p>Product designs, branding, and marketing materials remain the property of Baby Power.</p>`,
   seo: {
     metaTitle: 'Terms of Service | Baby Power Wholesale',
     metaDescription: 'Terms of service for Baby Power wholesale trade customers.',
@@ -169,6 +171,22 @@ const privacyPolicy = {
 
 async function seed() {
   await connectDB();
+
+  const force = process.env.SEED_FORCE === 'true';
+  const userCount = await User.countDocuments();
+
+  if (!force && userCount > 0) {
+    console.log('Database already has data — skipping seed to keep saved settings and content.');
+    await ensureSiteSettings();
+    await mongoose.connection.close();
+    process.exit(0);
+  }
+
+  if (force) {
+    console.log('SEED_FORCE=true — clearing existing data...');
+  } else {
+    console.log('Empty database — seeding sample data...');
+  }
 
   console.log('Clearing existing data...');
   await Promise.all([
@@ -230,7 +248,10 @@ async function seed() {
   await FAQ.insertMany(faqs);
 
   console.log('Creating pages...');
-  await Page.insertMany([returnPolicy, shippingPolicy, termsOfService, privacyPolicy]);
+  await Page.insertMany([...contentPages, returnPolicy, shippingPolicy, termsOfService, privacyPolicy]);
+
+  console.log('Ensuring site settings...');
+  await ensureSiteSettings();
 
   console.log('Seed completed successfully!');
   console.log(`Admin login: ${process.env.ADMIN_EMAIL || 'admin@babypower.com'}`);

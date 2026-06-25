@@ -8,6 +8,7 @@ export interface Category {
   _id: string;
   name: string;
   slug: string;
+  parent?: Category | string | null;
   image: string;
   description: string;
   seo: SEO;
@@ -79,7 +80,9 @@ export interface Page {
   _id: string;
   slug: string;
   title: string;
+  subtitle?: string;
   content: string;
+  extras?: Record<string, unknown>;
   seo: SEO;
   isActive: boolean;
 }
@@ -132,4 +135,15 @@ export interface Banner {
   sortOrder: number;
   isActive: boolean;
   createdAt?: string;
+}
+
+export interface SiteSettings {
+  whatsappNumber: string;
+  whatsappMessage: string;
+  smtpHost?: string;
+  smtpPort?: number;
+  smtpUser?: string;
+  smtpPass?: string;
+  smtpFrom?: string;
+  smtpNotifyEmail?: string;
 }

@@ -45,9 +45,11 @@ npm run dev
 ```
 
 This automatically:
-- Starts an in-memory MongoDB (no install required)
-- Seeds sample data
+- Connects to MongoDB from `backend/.env` (or in-memory if no URI is set)
+- Seeds sample data **only if the database is empty**
 - Starts the API and frontend
+
+**Admin settings** (WhatsApp, SMTP, etc.) are stored in the `Settings` collection and are **not deleted** on restart or re-seed.
 
 | Service | URL |
 |---------|-----|
@@ -63,15 +65,29 @@ This automatically:
 
 | Command | When to use |
 |---------|-------------|
-| `npm run dev` | No MongoDB installed — uses in-memory DB + auto-seed (data resets on each restart) |
+| `npm run dev` | Uses `MONGODB_URI` from `backend/.env` when set (settings persist). Falls back to in-memory DB if unset. |
 | `npm run seed:memory` | Test seed only (data not persisted) |
-| `npm run seed` | When you have MongoDB running on `localhost:27017` |
-| `npm run dev:local` | When using local/Docker MongoDB after seeding |
+| `npm run seed` | Seed MongoDB when empty; skips if data exists (settings are never wiped) |
+| `npm run dev:local` | Backend + frontend using `backend/.env` MongoDB |
 | `npm run mongo:docker` | Start MongoDB via Docker (if Docker is installed) |
 
 For persistent data, use Docker (`docker compose up -d` then `npm run seed` && `npm run dev:local`) or set `MONGODB_URI` in `backend/.env` to a [MongoDB Atlas](https://www.mongodb.com/atlas) connection string.
 
 **macOS note:** Port 5000 is often used by AirPlay Receiver. The API defaults to port `5001` to avoid conflicts.
+
+### Image uploads (Cloudinary — recommended for production)
+
+Without cloud storage, uploads are saved to `backend/uploads/` on the server only (not shared across devices or after redeploy).
+
+Add to `backend/.env`:
+
+```bash
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
+```
+
+Create a free account at [cloudinary.com](https://cloudinary.com). Once set, product/category/banner images upload to Cloudinary and work from any device.
 
 **Important:** Always run `npm run dev` from the **project root** (`baby_power/`), not from `frontend/` alone. Running only the frontend dev server will leave the API offline and the site will show empty catalogue data.
 

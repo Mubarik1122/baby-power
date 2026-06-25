@@ -1,4 +1,5 @@
 const Banner = require('../models/Banner');
+const { saveUploadedFile } = require('../utils/storage');
 
 exports.getBanners = async (req, res) => {
   const filter = req.query.active !== 'false' ? { isActive: true } : {};
@@ -16,7 +17,7 @@ exports.getBanner = async (req, res) => {
 
 exports.createBanner = async (req, res) => {
   const body = { ...req.body };
-  if (req.file) body.image = `/uploads/${req.file.filename}`;
+  if (req.file) body.image = await saveUploadedFile(req.file);
   else if (body.imageUrl) body.image = body.imageUrl;
   delete body.imageUrl;
   if (body.sortOrder) body.sortOrder = parseInt(body.sortOrder);
@@ -32,7 +33,7 @@ exports.createBanner = async (req, res) => {
 
 exports.updateBanner = async (req, res) => {
   const body = { ...req.body };
-  if (req.file) body.image = `/uploads/${req.file.filename}`;
+  if (req.file) body.image = await saveUploadedFile(req.file);
   else if (body.imageUrl) body.image = body.imageUrl;
   delete body.imageUrl;
   if (body.sortOrder) body.sortOrder = parseInt(body.sortOrder);

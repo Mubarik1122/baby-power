@@ -5,17 +5,21 @@ import { X } from 'lucide-react';
 import { createCategory, updateCategory } from '@/lib/api';
 import { getToken } from '@/lib/auth';
 import { Category } from '@/lib/types';
+import { getParentCategoryOptions, getParentId } from '@/lib/categories';
 import Button from '@/components/ui/Button';
 
 interface Props {
   category: Category | null;
+  categories: Category[];
   onClose: () => void;
   onSave: () => void;
 }
 
-export default function CategoryForm({ category, onClose, onSave }: Props) {
+export default function CategoryForm({ category, categories, onClose, onSave }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const parentOptions = getParentCategoryOptions(categories, category?._id);
+  const currentParentId = category ? getParentId(category) : null;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,6 +38,11 @@ export default function CategoryForm({ category, onClose, onSave }: Props) {
     form.delete('metaTitle');
     form.delete('metaDescription');
     form.delete('keywords');
+
+    const parent = form.get('parent') as string;
+    if (!parent) {
+      form.set('parent', '');
+    }
 
     try {
       if (category) {
@@ -62,6 +71,22 @@ export default function CategoryForm({ category, onClose, onSave }: Props) {
           <div>
             <label className="block text-sm font-medium mb-1">Category Name *</label>
             <input name="name" required defaultValue={category?.name} className="w-full px-3 py-2 border rounded-xl text-sm" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1">Parent Category</label>
+            <select
+              name="parent"
+              defaultValue={currentParentId || ''}
+              className="w-full px-3 py-2 border rounded-xl text-sm"
+            >
+              <option value="">None (top-level category)</option>
+              {parentOptions.map((parent) => (
+                <option key={parent._id} value={parent._id}>{parent.name}</option>
+              ))}
+            </select>
+            <p className="text-xs text-gray-500 mt-1">
+              Leave empty for a main category (e.g. Baby Outfits). Select a parent for subcategories (e.g. Girls Outfits).
+            </p>
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Description</label>

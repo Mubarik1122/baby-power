@@ -5,6 +5,7 @@ import { X } from 'lucide-react';
 import { createProduct, updateProduct } from '@/lib/api';
 import { getToken } from '@/lib/auth';
 import { Product, Category } from '@/lib/types';
+import { getCategoryOptions } from '@/lib/categories';
 import Button from '@/components/ui/Button';
 
 interface Props {
@@ -87,7 +88,9 @@ export default function ProductForm({ product, categories, onClose, onSave }: Pr
               <label className="block text-sm font-medium mb-1">Category *</label>
               <select name="category" required defaultValue={typeof product?.category === 'object' ? product.category._id : product?.category} className="w-full px-3 py-2 border rounded-xl text-sm">
                 <option value="">Select category</option>
-                {categories.map((c) => <option key={c._id} value={c._id}>{c.name}</option>)}
+                {getCategoryOptions(categories).map((option) => (
+                  <option key={option.id} value={option.id}>{option.label}</option>
+                ))}
               </select>
             </div>
             <div>

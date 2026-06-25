@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
+import ApiImage from '@/components/ui/ApiImage';
 import { Plus, Pencil, Trash2, Eye, EyeOff } from 'lucide-react';
-import { getBanners, deleteBanner, toggleBanner, getImageUrl } from '@/lib/api';
+import { getBanners, deleteBanner, toggleBanner } from '@/lib/api';
 import { getToken } from '@/lib/auth';
 import { Banner } from '@/lib/types';
 import Button from '@/components/ui/Button';
@@ -80,7 +80,7 @@ export default function AdminBannersPage() {
             <div key={b._id} className="bg-white rounded-2xl border border-border overflow-hidden shadow-sm flex flex-col sm:flex-row">
               <div className="relative w-full sm:w-48 h-32 sm:h-auto shrink-0 bg-muted">
                 {b.image ? (
-                  <Image src={getImageUrl(b.image)} alt={b.title} fill className="object-cover" />
+                  <ApiImage src={b.image} alt={b.title} fill className="object-cover" />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center text-xs text-gray-400">No image</div>
                 )}

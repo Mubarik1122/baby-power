@@ -3,8 +3,19 @@
 import { usePathname } from 'next/navigation';
 import Header from './Header';
 import Footer from './Footer';
+import WhatsAppButton from './WhatsAppButton';
 
-export default function ConditionalLayout({ children }: { children: React.ReactNode }) {
+interface Props {
+  children: React.ReactNode;
+  whatsappNumber?: string;
+  whatsappMessage?: string;
+}
+
+export default function ConditionalLayout({
+  children,
+  whatsappNumber = '',
+  whatsappMessage = '',
+}: Props) {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith('/admin');
 
@@ -17,6 +28,7 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
       <Header />
       <main className="flex-1">{children}</main>
       <Footer />
+      <WhatsAppButton initialNumber={whatsappNumber} initialMessage={whatsappMessage} />
     </>
   );
 }

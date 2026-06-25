@@ -1,8 +1,8 @@
-import { ShieldCheck, Globe, Package, Star } from 'lucide-react';
+import { ShieldCheck, MapPin, Package, Star } from 'lucide-react';
 
 const badges = [
   { icon: ShieldCheck, label: 'OEKO-TEX Certified' },
-  { icon: Globe, label: 'Ships Worldwide' },
+  { icon: MapPin, label: 'UK & NI Delivery' },
   { icon: Package, label: 'Bulk MOQ Available' },
   { icon: Star, label: 'Trade Only Pricing' },
 ];

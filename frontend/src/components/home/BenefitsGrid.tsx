@@ -1,13 +1,13 @@
-import { Shield, Truck, Award, Users, Sparkles, HeartHandshake } from 'lucide-react';
+import { Shield, Truck, Award, Users, Sparkles, MapPin } from 'lucide-react';
 import Reveal from '@/components/ui/Reveal';
 
 const benefits = [
   { icon: Shield, title: 'OEKO-TEX Certified', desc: 'Safe, tested fabrics for every baby garment we manufacture.' },
-  { icon: Truck, title: 'Global Shipping', desc: 'Reliable worldwide freight for bulk wholesale orders.' },
+  { icon: Truck, title: 'UK & NI Delivery', desc: 'Reliable wholesale delivery across the United Kingdom and Northern Ireland.' },
   { icon: Award, title: 'Trade Pricing', desc: 'Factory-direct wholesale rates with flexible MOQs.' },
   { icon: Users, title: 'Account Support', desc: 'Dedicated trade managers for every retail partner.' },
   { icon: Sparkles, title: 'Seasonal Drops', desc: 'Fresh collections every season — rompers, sets & gift boxes.' },
-  { icon: HeartHandshake, title: 'OEM / ODM', desc: 'Custom branding and private-label manufacturing available.' },
+  { icon: MapPin, title: 'UK Based', desc: 'Trusted wholesale partner with UK-based account management.' },
 ];
 
 export default function BenefitsGrid() {

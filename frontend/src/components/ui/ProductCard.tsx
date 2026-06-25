@@ -1,8 +1,7 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Package } from 'lucide-react';
+import ApiImage from '@/components/ui/ApiImage';
 import { Product } from '@/lib/types';
-import { getImageUrl } from '@/lib/api';
 
 interface ProductCardProps {
   product: Product;
@@ -10,7 +9,7 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, index = 0 }: ProductCardProps) {
-  const imageUrl = product.images?.[0] ? getImageUrl(product.images[0]) : '';
+  const imagePath = product.images?.[0] || '';
 
   return (
     <div
@@ -19,9 +18,9 @@ export default function ProductCard({ product, index = 0 }: ProductCardProps) {
     >
       <Link href={`/product/${product.slug}`} className="block relative">
         <div className="relative aspect-[4/5] bg-linen overflow-hidden mb-5">
-          {imageUrl ? (
-            <Image
-              src={imageUrl}
+          {imagePath ? (
+            <ApiImage
+              src={imagePath}
               alt={product.name}
               fill
               className="object-cover product-card-image"

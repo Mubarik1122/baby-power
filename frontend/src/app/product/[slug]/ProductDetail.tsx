@@ -1,11 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { Package, ChevronRight, ShieldCheck, Truck, Star } from 'lucide-react';
+import ApiImage from '@/components/ui/ApiImage';
 import { Product } from '@/lib/types';
-import { getImageUrl } from '@/lib/api';
 import { isAttributeSelectionValid, productHasAttributes, formatSelectionLabel } from '@/lib/productVariants';
 import Button from '@/components/ui/Button';
 import QuotationModal from '@/components/forms/QuotationModal';
@@ -66,7 +65,7 @@ export default function ProductDetail({ product }: Props) {
 
   const highlights = [
     { icon: ShieldCheck, text: 'OEKO-TEX certified materials' },
-    { icon: Truck, text: 'Worldwide wholesale shipping' },
+    { icon: Truck, text: 'UK & NI wholesale delivery' },
     { icon: Star, text: 'Trade-only pricing on request' },
   ];
 
@@ -94,8 +93,8 @@ export default function ProductDetail({ product }: Props) {
           <div className="lg:col-span-7">
             <div className="relative aspect-[4/5] lg:aspect-[3/4] bg-linen overflow-hidden border border-border">
               {images.length > 0 ? (
-                <Image
-                  src={getImageUrl(images[selectedImage])}
+                <ApiImage
+                  src={images[selectedImage]}
                   alt={product.name}
                   fill
                   className="object-cover"
@@ -124,7 +123,7 @@ export default function ProductDetail({ product }: Props) {
                       i === selectedImage ? 'border-primary' : 'border-border hover:border-primary/50'
                     }`}
                   >
-                    <Image src={getImageUrl(img)} alt="" fill className="object-cover" sizes="80px" />
+                    <ApiImage src={img} alt="" fill className="object-cover" sizes="80px" />
                   </button>
                 ))}
               </div>

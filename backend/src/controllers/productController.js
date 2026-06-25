@@ -1,4 +1,6 @@
 const Product = require('../models/Product');
+const Category = require('../models/Category');
+const { saveUploadedFiles } = require('../utils/storage');
 
 exports.getProducts = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
@@ -6,7 +8,12 @@ exports.getProducts = async (req, res) => {
   const skip = (page - 1) * limit;
 
   const filter = {};
-  if (req.query.category) filter.category = req.query.category;
+  if (req.query.category) {
+    const childIds = await Category.find({ parent: req.query.category }).distinct('_id');
+    filter.category = childIds.length > 0
+      ? { $in: [req.query.category, ...childIds] }
+      : req.query.category;
+  }
   if (req.query.featured === 'true') filter.isFeatured = true;
   if (req.query.active !== 'false') filter.isActive = true;
 
@@ -14,13 +21,13 @@ exports.getProducts = async (req, res) => {
   if (req.query.sort === 'name') sort = { name: 1 };
   if (req.query.sort === 'oldest') sort = { createdAt: 1 };
 
-  let query = Product.find(filter).populate('category', 'name slug image');
+  let query = Product.find(filter).populate('category', 'name slug image parent');
 
   if (req.query.search) {
     query = Product.find({
       ...filter,
       $text: { $search: req.query.search },
-    }).populate('category', 'name slug image');
+    }).populate('category', 'name slug image parent');
   }
 
   const total = await Product.countDocuments(
@@ -60,7 +67,7 @@ exports.getProduct = async (req, res) => {
 };
 
 exports.createProduct = async (req, res) => {
-  const images = req.files?.map((f) => `/uploads/${f.filename}`) || [];
+  const images = req.files?.length ? await saveUploadedFiles(req.files) : [];
   const body = { ...req.body };
 
   if (body.sizes && typeof body.sizes === 'string') body.sizes = JSON.parse(body.sizes);
@@ -89,7 +96,7 @@ exports.updateProduct = async (req, res) => {
   if (body.isActive !== undefined) body.isActive = body.isActive !== 'false' && body.isActive !== false;
 
   if (req.files?.length) {
-    const newImages = req.files.map((f) => `/uploads/${f.filename}`);
+    const newImages = await saveUploadedFiles(req.files);
     body.images = [...(product.images || []), ...newImages];
   }
 

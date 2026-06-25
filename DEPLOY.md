@@ -63,7 +63,7 @@ Repo: https://github.com/Mubarik1122/baby-power
 5. Deploy. Note your API URL, e.g. `https://baby-power-api.onrender.com`.
 6. Test: `https://baby-power-api.onrender.com/api/health`
 
-**Note:** Free Render spins down after inactivity (cold start ~30s). Uploaded images in `backend/uploads/` are **not persistent** on free tier — use external URLs or upgrade storage later.
+**Note:** Free Render spins down after inactivity (cold start ~30s). For persistent uploads, set `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` on Render (see README). Without Cloudinary, files in `backend/uploads/` are **not persistent** on free tier.
 
 ---
 
