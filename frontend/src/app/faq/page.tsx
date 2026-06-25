@@ -15,7 +15,7 @@ export const metadata: Metadata = generateSEO({
 
 export const revalidate = 60;
 
-const FAQ_BANNER = '/banners/faq-hero.jpg?v=4';
+const FAQ_BANNER = '/banners/faq-hero.jpg';
 
 export default async function FAQPage() {
   let faqs: FAQ[] = [];

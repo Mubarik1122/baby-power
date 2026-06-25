@@ -10,7 +10,7 @@ import { Category, Page } from '@/lib/types';
 
 export const revalidate = 60;
 
-const ABOUT_BANNER = '/banners/about-hero.jpg?v=4';
+const ABOUT_BANNER = '/banners/about-hero.jpg';
 const FALLBACK_STORY_IMAGE =
   'https://cdn.shopify.com/s/files/1/0873/9861/3317/collections/Untitled_design_6.jpg?v=1768585452';
 

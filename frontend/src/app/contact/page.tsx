@@ -61,7 +61,7 @@ export default async function ContactPage() {
       <PageBanner
         title={page?.title || 'Contact Us'}
         subtitle={page?.subtitle || 'Request a trade account or send us an enquiry — we respond within 24 hours'}
-        image="/banners/contact-hero.jpg?v=4"
+        image="/banners/contact-hero.jpg"
       />
 
       <section className="py-14 lg:py-20 bg-surface">
