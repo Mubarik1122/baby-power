@@ -60,7 +60,7 @@ export default function Header() {
       <div className={`bg-surface border-b border-border transition-shadow duration-300 ${scrolled ? 'shadow-[0_4px_30px_-10px_rgba(44,44,44,0.1)]' : ''}`}>
         <div className="relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className={`flex items-center justify-between transition-all duration-300 ${scrolled ? 'h-14 lg:h-16' : 'h-16 lg:h-[76px]'}`}>
+            <div className={`flex items-center justify-between transition-all duration-300 ${scrolled ? 'h-16 lg:h-[72px]' : 'h-16 lg:h-[88px]'}`}>
               <button
                 className="lg:hidden p-2 -ml-2 text-secondary"
                 onClick={() => setOpen(!open)}

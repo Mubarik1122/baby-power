@@ -34,13 +34,13 @@ export async function generateMetadata(): Promise<Metadata> {
     const page = res.data;
     return generateSEO({
       title: page.seo?.metaTitle || page.title,
-      description: page.seo?.metaDescription || 'About Baby Power wholesale baby clothing.',
+      description: page.seo?.metaDescription || 'About Little Star wholesale baby clothing.',
       path: '/about',
     });
   } catch {
     return generateSEO({
       title: 'About Us',
-      description: 'Learn about Baby Power wholesale baby clothing.',
+      description: 'Learn about Little Star wholesale baby clothing.',
       path: '/about',
     });
   }
@@ -78,7 +78,7 @@ export default async function AboutPage() {
               <div className="relative aspect-[4/5] overflow-hidden frame-corners">
                 <ApiImage
                   src={storyImage}
-                  alt="Baby Power wholesale baby clothing"
+                  alt="Little Star wholesale baby clothing"
                   fill
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 40vw"
@@ -98,7 +98,7 @@ export default async function AboutPage() {
               ) : (
                 <div className="space-y-4 text-muted text-sm leading-relaxed">
                   <p>
-                    Baby Power is a UK-based wholesale baby clothing manufacturer dedicated to providing retailers
+                    Little Star is a UK-based wholesale baby clothing manufacturer dedicated to providing retailers
                     with premium quality garments at competitive trade prices.
                   </p>
                 </div>

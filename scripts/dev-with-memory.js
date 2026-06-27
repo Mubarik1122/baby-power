@@ -40,6 +40,7 @@ function killPid(pid) {
 
 function cleanupStaleDevServers() {
   const lockPath = path.join(frontendDir, '.next/dev/lock');
+  let clearedCache = false;
 
   if (fs.existsSync(lockPath)) {
     try {
@@ -56,6 +57,7 @@ function cleanupStaleDevServers() {
     } catch {
       // Ignore lock removal errors.
     }
+    clearedCache = true;
   }
 
   for (const port of [3000, 3001]) {
@@ -64,11 +66,20 @@ function cleanupStaleDevServers() {
         .trim()
         .split('\n')
         .filter(Boolean);
+      if (pids.length > 0) clearedCache = true;
       for (const pid of pids) {
         killPid(Number(pid));
       }
     } catch {
       // Port is free.
+    }
+  }
+
+  if (clearedCache) {
+    const nextDir = path.join(frontendDir, '.next');
+    if (fs.existsSync(nextDir)) {
+      console.log('Clearing stale Next.js cache (.next)...');
+      fs.rmSync(nextDir, { recursive: true, force: true });
     }
   }
 }
@@ -101,7 +112,7 @@ async function main() {
   if (useMemoryDb) {
     const { MongoMemoryServer } = require(path.join(backendDir, 'node_modules/mongodb-memory-server'));
     mongod = await MongoMemoryServer.create();
-    mongoUri = mongod.getUri('baby_power');
+    mongoUri = mongod.getUri('little_star');
     console.log('\nUsing in-memory MongoDB (data resets when dev stops).');
     console.log('For persistent settings, set MONGODB_URI in backend/.env and USE_MEMORY_DB=false\n');
   } else {
@@ -142,7 +153,7 @@ async function main() {
   console.log(`  Website:  ${siteUrl}`);
   console.log(`  Admin:    ${siteUrl}/admin`);
   console.log(`  API:      http://localhost:${apiPort}`);
-  console.log('  Login:    admin@babypower.com / Admin@123456\n');
+  console.log('  Login:    admin@littlestar.co.uk / Admin@123456\n');
 
   const backend = spawn('npm', ['run', 'dev'], {
     cwd: backendDir,

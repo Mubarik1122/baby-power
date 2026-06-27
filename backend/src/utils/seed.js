@@ -48,7 +48,7 @@ const MNB = {
       sortOrder: 2,
     },
     {
-      title: 'Partner With Baby Power',
+      title: 'Partner With Little Star',
       subtitle: 'Wholesale accounts for retailers worldwide — request your trade account today',
       ctaText: 'Request Account',
       ctaLink: '/contact',
@@ -91,7 +91,7 @@ const returnPolicy = {
   slug: 'return-policy',
   title: 'Return Policy',
   content: `<h2>Return & Exchange Policy</h2>
-<p>At Baby Power, we are committed to delivering high-quality wholesale baby clothing. We understand that occasionally issues may arise, and we have established the following return policy for our B2B customers.</p>
+<p>At Little Star, we are committed to delivering high-quality wholesale baby clothing. We understand that occasionally issues may arise, and we have established the following return policy for our B2B customers.</p>
 <h3>Quality Issues</h3>
 <p>If you receive products with manufacturing defects, please notify us within 7 days of delivery with photographic evidence. We will arrange replacement or credit at no additional cost.</p>
 <h3>Incorrect Orders</h3>
@@ -99,10 +99,10 @@ const returnPolicy = {
 <h3>Non-Returnable Items</h3>
 <p>Custom-made or personalized items cannot be returned unless there is a quality defect. Sale items are final sale unless defective.</p>
 <h3>Return Process</h3>
-<p>Contact our team at returns@babypower.com with your order number and details. Our team will provide a return authorization and instructions within 2 business days.</p>`,
+<p>Contact our team at returns@littlestar.co.uk with your order number and details. Our team will provide a return authorization and instructions within 2 business days.</p>`,
   seo: {
-    metaTitle: 'Return Policy | Baby Power Wholesale',
-    metaDescription: 'Learn about Baby Power wholesale return and exchange policy for B2B customers.',
+    metaTitle: 'Return Policy | Little Star',
+    metaDescription: 'Learn about Little Star wholesale return and exchange policy for B2B customers.',
     keywords: 'return policy, wholesale returns, baby clothing returns',
   },
 };
@@ -111,7 +111,7 @@ const shippingPolicy = {
   slug: 'shipping-policy',
   title: 'Shipping Policy',
   content: `<h2>Shipping Policy</h2>
-<p>Baby Power delivers wholesale orders across the United Kingdom and Northern Ireland. Shipping terms are agreed during the quotation and order confirmation process.</p>
+<p>Little Star delivers wholesale orders across the United Kingdom and Northern Ireland. Shipping terms are agreed during the quotation and order confirmation process.</p>
 <h3>Dispatch Times</h3>
 <p>Standard orders are typically dispatched within 15–30 business days after payment confirmation. Seasonal orders may require additional lead time.</p>
 <h3>Delivery Areas</h3>
@@ -121,8 +121,8 @@ const shippingPolicy = {
 <h3>Shipping Costs</h3>
 <p>Shipping is quoted separately based on volume, weight, and destination within the UK and Northern Ireland. Contact our team for a detailed freight estimate with your quotation.</p>`,
   seo: {
-    metaTitle: 'Shipping Policy | Baby Power Wholesale',
-    metaDescription: 'Shipping and delivery information for Baby Power wholesale orders.',
+    metaTitle: 'Shipping Policy | Little Star',
+    metaDescription: 'Shipping and delivery information for Little Star wholesale orders.',
     keywords: 'shipping policy, wholesale delivery, baby clothing freight',
   },
 };
@@ -131,18 +131,18 @@ const termsOfService = {
   slug: 'terms-of-service',
   title: 'Terms of Service',
   content: `<h2>Terms of Service</h2>
-<p>These terms govern trade accounts and wholesale purchases with Baby Power. By requesting an account or placing an order, you agree to these terms.</p>
+<p>These terms govern trade accounts and wholesale purchases with Little Star. By requesting an account or placing an order, you agree to these terms.</p>
 <h3>Trade Accounts</h3>
-<p>Baby Power is a trade-only wholesaler. Accounts are subject to approval. We reserve the right to decline or suspend accounts at our discretion.</p>
+<p>Little Star is a trade-only wholesaler. Accounts are subject to approval. We reserve the right to decline or suspend accounts at our discretion.</p>
 <h3>Orders & Payment</h3>
 <p>All orders are subject to acceptance and availability. Payment terms, including deposits and balances, are confirmed in writing before production or dispatch.</p>
 <h3>Pricing</h3>
 <p>Quoted prices are valid for the period stated on the quotation. Prices exclude shipping, duties, and taxes unless otherwise agreed.</p>
 <h3>Intellectual Property</h3>
-<p>Product designs, branding, and marketing materials remain the property of Baby Power.</p>`,
+<p>Product designs, branding, and marketing materials remain the property of Little Star.</p>`,
   seo: {
-    metaTitle: 'Terms of Service | Baby Power Wholesale',
-    metaDescription: 'Terms of service for Baby Power wholesale trade customers.',
+    metaTitle: 'Terms of Service | Little Star',
+    metaDescription: 'Terms of service for Little Star wholesale trade customers.',
     keywords: 'terms of service, wholesale terms, trade account',
   },
 };
@@ -151,7 +151,7 @@ const privacyPolicy = {
   slug: 'privacy-policy',
   title: 'Privacy Policy',
   content: `<h2>Privacy Policy</h2>
-<p>Baby Power respects your privacy and is committed to protecting personal data submitted through our website and trade account applications.</p>
+<p>Little Star respects your privacy and is committed to protecting personal data submitted through our website and trade account applications.</p>
 <h3>Information We Collect</h3>
 <p>We collect contact details, company information, and enquiry data when you submit contact forms, quotation requests, or account applications.</p>
 <h3>How We Use Your Data</h3>
@@ -159,12 +159,12 @@ const privacyPolicy = {
 <h3>Data Retention</h3>
 <p>We retain lead and account information for as long as necessary to fulfil business purposes or as required by law.</p>
 <h3>Your Rights</h3>
-<p>You may request access, correction, or deletion of your personal data by contacting privacy@babypower.com.</p>
+<p>You may request access, correction, or deletion of your personal data by contacting privacy@littlestar.co.uk.</p>
 <h3>Cookies</h3>
 <p>Our website may use essential cookies for functionality. We do not use invasive tracking cookies on the public storefront.</p>`,
   seo: {
-    metaTitle: 'Privacy Policy | Baby Power Wholesale',
-    metaDescription: 'How Baby Power collects, uses, and protects your personal data.',
+    metaTitle: 'Privacy Policy | Little Star',
+    metaDescription: 'How Little Star collects, uses, and protects your personal data.',
     keywords: 'privacy policy, data protection, wholesale privacy',
   },
 };
@@ -201,7 +201,7 @@ async function seed() {
   console.log('Creating admin user...');
   await User.create({
     name: 'Admin',
-    email: process.env.ADMIN_EMAIL || 'admin@babypower.com',
+    email: process.env.ADMIN_EMAIL || 'admin@littlestar.co.uk',
     password: process.env.ADMIN_PASSWORD || 'Admin@123456',
     role: 'admin',
   });
@@ -212,9 +212,9 @@ async function seed() {
     const created = await Category.create({
       ...cat,
       seo: {
-        metaTitle: `${cat.name} Wholesale | Baby Power`,
+        metaTitle: `${cat.name} Wholesale | Little Star`,
         metaDescription: cat.description,
-        keywords: `${cat.name.toLowerCase()}, wholesale baby clothing, baby power`,
+        keywords: `${cat.name.toLowerCase()}, wholesale baby clothing, little star`,
       },
     });
     createdCategories[cat.name] = created._id;
@@ -234,7 +234,7 @@ async function seed() {
       moq: prod.moq,
       isFeatured: prod.isFeatured || false,
       seo: {
-        metaTitle: `${prod.name} | Baby Power Wholesale`,
+        metaTitle: `${prod.name} | Little Star`,
         metaDescription: prod.description,
         keywords: `${prod.name.toLowerCase()}, wholesale, baby clothing`,
       },
@@ -254,7 +254,7 @@ async function seed() {
   await ensureSiteSettings();
 
   console.log('Seed completed successfully!');
-  console.log(`Admin login: ${process.env.ADMIN_EMAIL || 'admin@babypower.com'}`);
+  console.log(`Admin login: ${process.env.ADMIN_EMAIL || 'admin@littlestar.co.uk'}`);
   console.log(`Admin password: ${process.env.ADMIN_PASSWORD || 'Admin@123456'}`);
 
   await mongoose.connection.close();

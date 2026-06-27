@@ -1,4 +1,4 @@
-# Baby Power – Wholesale Baby Clothing Website
+# Little Star – Wholesale Baby Clothing Website
 
 A modern, SEO-friendly, mobile-responsive wholesale baby clothing website built with Next.js, Express.js, and MongoDB.
 
@@ -58,7 +58,7 @@ This automatically:
 | API | http://localhost:5001 |
 
 **Default admin credentials:**
-- Email: `admin@babypower.com`
+- Email: `admin@littlestar.co.uk`
 - Password: `Admin@123456`
 
 ### MongoDB options
@@ -89,12 +89,12 @@ CLOUDINARY_API_SECRET=your-api-secret
 
 Create a free account at [cloudinary.com](https://cloudinary.com). Once set, product/category/banner images upload to Cloudinary and work from any device.
 
-**Important:** Always run `npm run dev` from the **project root** (`baby_power/`), not from `frontend/` alone. Running only the frontend dev server will leave the API offline and the site will show empty catalogue data.
+**Important:** Always run `npm run dev` from the **project root** (`little_star/`), not from `frontend/` alone. Running only the frontend dev server will leave the API offline and the site will show empty catalogue data.
 
 ## Project Structure
 
 ```
-baby_power/
+little_star/
 ├── backend/          # Express.js API
 │   ├── src/
 │   │   ├── models/       # MongoDB models

@@ -22,7 +22,7 @@ async function uploadToCloudinary(file) {
 
   return new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
-      { folder: process.env.CLOUDINARY_FOLDER || 'baby-power' },
+      { folder: process.env.CLOUDINARY_FOLDER || 'little-star' },
       (error, result) => {
         if (error) reject(error);
         else resolve(result.secure_url);

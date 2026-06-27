@@ -1,5 +1,6 @@
 import { Shield, Truck, Award, Users, Sparkles, MapPin } from 'lucide-react';
 import Reveal from '@/components/ui/Reveal';
+import { BRAND_NAME } from '@/lib/brand';
 
 const benefits = [
   { icon: Shield, title: 'OEKO-TEX Certified', desc: 'Safe, tested fabrics for every baby garment we manufacture.' },
@@ -15,7 +16,7 @@ export default function BenefitsGrid() {
     <section className="py-14 lg:py-20 bg-linen border-t border-border relative grain">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
-          <p className="text-[10px] uppercase tracking-[0.35em] text-gold mb-3">Why Baby Power</p>
+          <p className="text-[10px] uppercase tracking-[0.35em] text-gold mb-3">Why {BRAND_NAME}</p>
           <h2 className="font-display text-3xl lg:text-4xl text-secondary tracking-wide">Wholesale Benefits</h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">

@@ -1,7 +1,9 @@
 import { Metadata } from 'next';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-const SITE_NAME = 'Baby Power';
+import { BRAND_NAME, BRAND_TAGLINE, BRAND_EMAIL, BRAND_WHATSAPP_MESSAGE } from '@/lib/brand';
+
+const SITE_NAME = BRAND_NAME;
 
 interface SEOProps {
   title: string;
@@ -15,7 +17,7 @@ interface SEOProps {
 export function generateSEO({
   title,
   description,
-  keywords = 'wholesale baby clothing, baby bodysuits, baby rompers, baby power',
+  keywords = 'wholesale baby clothing, baby bodysuits, baby rompers, little star wholesale',
   path = '',
   image = '/og-image.jpg',
   type = 'website',
@@ -56,7 +58,7 @@ export function ProductSchema({ product }: { product: { name: string; descriptio
     name: product.name,
     description: product.description,
     sku: product.sku,
-    brand: { '@type': 'Brand', name: 'Baby Power' },
+    brand: { '@type': 'Brand', name: SITE_NAME },
     image: image,
   };
 
@@ -72,14 +74,14 @@ export function OrganizationSchema() {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'Baby Power',
+    name: SITE_NAME,
     url: SITE_URL,
     logo: `${SITE_URL}/logo.png`,
     description: 'Premium wholesale baby clothing manufacturer and supplier.',
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'sales',
-      email: 'info@babypower.com',
+      email: BRAND_EMAIL,
     },
   };
 

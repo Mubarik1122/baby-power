@@ -8,14 +8,14 @@ export async function generateMetadata(): Promise<Metadata> {
     const { data } = await getPageBySlug('terms-of-service');
     return generateSEO({
       title: data.seo?.metaTitle || data.title,
-      description: data.seo?.metaDescription || 'Terms of service for Baby Power wholesale customers.',
+      description: data.seo?.metaDescription || 'Terms of service for Little Star wholesale customers.',
       keywords: data.seo?.keywords,
       path: '/terms-of-service',
     });
   } catch {
     return generateSEO({
       title: 'Terms of Service',
-      description: 'Terms of service for Baby Power wholesale customers.',
+      description: 'Terms of service for Little Star wholesale customers.',
       path: '/terms-of-service',
     });
   }

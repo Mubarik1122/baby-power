@@ -40,7 +40,7 @@ export default function AdminLoginPage() {
             <Logo size="lg" href={null} />
           </div>
           <h1 className="text-2xl font-bold text-secondary font-display">Admin Login</h1>
-          <p className="text-gray-500 text-sm mt-2">Sign in to manage Baby Power</p>
+          <p className="text-gray-500 text-sm mt-2">Sign in to manage Little Star</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
@@ -50,7 +50,8 @@ export default function AdminLoginPage() {
               name="email"
               type="email"
               required
-              defaultValue="admin@babypower.com"
+              autoComplete="email"
+              placeholder="Enter your email"
               className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
           </div>
@@ -60,6 +61,8 @@ export default function AdminLoginPage() {
               name="password"
               type="password"
               required
+              autoComplete="current-password"
+              placeholder="Enter your password"
               className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/50"
             />
           </div>

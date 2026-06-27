@@ -1,7 +1,7 @@
 {
-  "name": "baby-power",
+  "name": "little-star",
   "version": "1.0.0",
-  "description": "Baby Power - Wholesale Baby Clothing Website",
+  "description": "Little Star - Wholesale Baby Clothing Website",
   "private": true,
   "scripts": {
     "dev": "node scripts/dev-with-memory.js",

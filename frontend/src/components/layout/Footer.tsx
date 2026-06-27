@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { BRAND_NAME } from '@/lib/brand';
 import Logo from '@/components/ui/Logo';
 import PoweredBy4sov from '@/components/ui/PoweredBy4sov';
 
@@ -88,7 +89,7 @@ export default function Footer() {
         </div>
 
         <p className="text-center text-muted text-[11px] tracking-[0.1em] font-light" suppressHydrationWarning>
-          &copy; {new Date().getFullYear()}, Baby Power Wholesale. All rights reserved.
+          &copy; {new Date().getFullYear()}, {BRAND_NAME}. All rights reserved.
         </p>
 
         <div className="flex justify-center mt-6">

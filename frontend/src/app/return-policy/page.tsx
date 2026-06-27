@@ -8,14 +8,14 @@ export async function generateMetadata(): Promise<Metadata> {
     const { data } = await getPageBySlug('return-policy');
     return generateSEO({
       title: data.seo?.metaTitle || data.title,
-      description: data.seo?.metaDescription || 'Return and exchange policy for Baby Power wholesale customers.',
+      description: data.seo?.metaDescription || 'Return and exchange policy for Little Star wholesale customers.',
       keywords: data.seo?.keywords,
       path: '/return-policy',
     });
   } catch {
     return generateSEO({
       title: 'Return Policy',
-      description: 'Return and exchange policy for Baby Power wholesale customers.',
+      description: 'Return and exchange policy for Little Star wholesale customers.',
       path: '/return-policy',
     });
   }

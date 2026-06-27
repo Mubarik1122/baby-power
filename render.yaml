@@ -1,8 +1,8 @@
-# Render Blueprint — Baby Power API
+# Render Blueprint — Little Star API
 # https://render.com/docs/blueprint-spec
 services:
   - type: web
-    name: baby-power-api
+    name: little-star-api
     runtime: node
     rootDir: backend
     buildCommand: npm install

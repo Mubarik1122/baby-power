@@ -1,10 +1,10 @@
 const Settings = require('../models/Settings');
+const brand = require('../config/brand');
 
 const defaultSiteSettings = {
   key: 'site',
   whatsappNumber: process.env.WHATSAPP_NUMBER || '',
-  whatsappMessage:
-    process.env.WHATSAPP_MESSAGE || 'Hello, I have a question about Baby Power wholesale.',
+  whatsappMessage: process.env.WHATSAPP_MESSAGE || brand.whatsappMessage,
   smtpHost: '',
   smtpPort: 587,
   smtpUser: '',

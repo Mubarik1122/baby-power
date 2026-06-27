@@ -8,7 +8,7 @@ const contentPages = [
     slug: 'about',
     title: 'About Us',
     subtitle: 'Crafting comfort for little ones since 2010 — trusted by 1,000+ retail partners',
-    content: `<p>Baby Power is a UK-based wholesale baby clothing manufacturer dedicated to providing retailers with premium quality garments at competitive trade prices. Founded in 2010, we have grown from a small family business to a trusted supplier serving over 1,000 retail partners across the UK and Northern Ireland.</p>
+    content: `<p>Little Star is a UK-based wholesale baby clothing manufacturer dedicated to providing retailers with premium quality garments at competitive trade prices. Founded in 2010, we have grown from a small family business to a trusted supplier serving over 1,000 retail partners across the UK and Northern Ireland.</p>
 <p>Our extensive product range includes baby bodysuits, rompers, sleepsuits, clothing sets, blankets, and accessories — all crafted from the finest materials with meticulous attention to detail.</p>`,
     extras: {
       storyImage: STORY_IMAGE,
@@ -22,9 +22,9 @@ const contentPages = [
       ],
     },
     seo: {
-      metaTitle: 'About Us | Baby Power Wholesale',
-      metaDescription: 'Learn about Baby Power — wholesale baby clothing for UK and Northern Ireland retailers.',
-      keywords: 'about baby power, wholesale baby clothing, UK wholesaler',
+      metaTitle: 'About Us | Little Star',
+      metaDescription: 'Learn about Little Star — wholesale baby clothing for UK and Northern Ireland retailers.',
+      keywords: 'about little star, wholesale baby clothing, UK wholesaler',
     },
   },
   {
@@ -35,27 +35,27 @@ const contentPages = [
     extras: {
       address: '123 Textile Lane, Manchester, M1 1AA, UK',
       phone: '+44 123 456 7890',
-      email: 'info@babypower.com',
+      email: 'info@littlestar.co.uk',
       hours: 'Mon – Fri: 9:00 AM – 6:00 PM GMT',
     },
     seo: {
-      metaTitle: 'Contact Us | Baby Power Wholesale',
-      metaDescription: 'Contact Baby Power for wholesale enquiries and trade accounts.',
-      keywords: 'contact baby power, wholesale enquiry, trade account',
+      metaTitle: 'Contact Us | Little Star',
+      metaDescription: 'Contact Little Star for wholesale enquiries and trade accounts.',
+      keywords: 'contact little star, wholesale enquiry, trade account',
     },
   },
   {
     slug: 'home-story',
     title: 'Crafting Comfort for Little Ones',
     subtitle: '',
-    content: 'Baby Power is a leading wholesale baby clothing manufacturer serving discerning retailers across the UK and Northern Ireland. From organic cotton bodysuits to cosy fleece sleepsuits, every garment reflects our commitment to quality, safety, and timeless design.',
+    content: 'Little Star is a leading wholesale baby clothing manufacturer serving discerning retailers across the UK and Northern Ireland. From organic cotton bodysuits to cosy fleece sleepsuits, every garment reflects our commitment to quality, safety, and timeless design.',
     extras: {
       label: 'Our Story',
     },
     seo: {
-      metaTitle: 'Baby Power | Wholesale Baby Clothing',
+      metaTitle: 'Little Star | Wholesale Baby Clothing',
       metaDescription: 'Wholesale baby clothing for UK and Northern Ireland retailers.',
-      keywords: 'wholesale baby clothing, baby power',
+      keywords: 'wholesale baby clothing, little star',
     },
   },
 ];

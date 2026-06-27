@@ -1,4 +1,5 @@
 import ApiImage from '@/components/ui/ApiImage';
+import { BRAND_NAME } from '@/lib/brand';
 
 interface PageBannerProps {
   title: string;
@@ -31,7 +32,7 @@ export default function PageBanner({ title, subtitle, image }: PageBannerProps) 
       )}
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center w-full">
         <p className={`text-[10px] uppercase tracking-[0.35em] mb-4 ${hasImage ? 'text-gold' : 'text-gold'}`}>
-          Baby Power Wholesale
+          {BRAND_NAME}
         </p>
         <h1 className={`font-display text-4xl lg:text-5xl xl:text-6xl tracking-wide leading-tight ${hasImage ? 'text-white' : 'text-secondary'}`}>
           {title}

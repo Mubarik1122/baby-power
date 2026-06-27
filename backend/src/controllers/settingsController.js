@@ -1,4 +1,5 @@
 const Settings = require('../models/Settings');
+const brand = require('../config/brand');
 
 const MASKED_PASSWORD = '********';
 
@@ -13,8 +14,7 @@ async function getOrCreateSettings() {
 function publicSettingsData(settings) {
   return {
     whatsappNumber: settings.whatsappNumber || '',
-    whatsappMessage:
-      settings.whatsappMessage || 'Hello, I have a question about Baby Power wholesale.',
+    whatsappMessage: settings.whatsappMessage || brand.whatsappMessage,
     smtpHost: settings.smtpHost || '',
     smtpPort: settings.smtpPort || 587,
     smtpUser: settings.smtpUser || '',
@@ -26,8 +26,7 @@ function publicSettingsData(settings) {
 function adminSettingsData(settings) {
   return {
     whatsappNumber: settings.whatsappNumber || '',
-    whatsappMessage:
-      settings.whatsappMessage || 'Hello, I have a question about Baby Power wholesale.',
+    whatsappMessage: settings.whatsappMessage || brand.whatsappMessage,
     smtpHost: settings.smtpHost || '',
     smtpPort: settings.smtpPort || 587,
     smtpUser: settings.smtpUser || '',

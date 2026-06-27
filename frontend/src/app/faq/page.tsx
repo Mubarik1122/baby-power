@@ -9,7 +9,7 @@ import Button from '@/components/ui/Button';
 
 export const metadata: Metadata = generateSEO({
   title: 'Frequently Asked Questions',
-  description: 'Answers to common questions about Baby Power wholesale ordering, shipping, and trade accounts.',
+  description: 'Answers to common questions about Little Star wholesale ordering, shipping, and trade accounts.',
   path: '/faq',
 });
 
@@ -34,7 +34,7 @@ export default async function FAQPage() {
       {faqs.length > 0 && <FAQSchema faqs={faqs} />}
       <PageBanner
         title="FAQ"
-        subtitle="Everything you need to know about wholesale ordering with Baby Power"
+        subtitle="Everything you need to know about wholesale ordering with Little Star"
         image={FAQ_BANNER}
       />
       <CategoryScrollStrip categories={categories} title="Shop by Category" />

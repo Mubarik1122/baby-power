@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const brand = require('../config/brand');
 
 const settingsSchema = new mongoose.Schema(
   {
@@ -6,7 +7,7 @@ const settingsSchema = new mongoose.Schema(
     whatsappNumber: { type: String, default: '' },
     whatsappMessage: {
       type: String,
-      default: 'Hello, I have a question about Baby Power wholesale.',
+      default: brand.whatsappMessage,
     },
     smtpHost: { type: String, default: '' },
     smtpPort: { type: Number, default: 587 },

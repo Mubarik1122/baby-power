@@ -1,4 +1,5 @@
 require('dotenv').config();
+const brand = require('./config/brand');
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -92,7 +93,7 @@ const formLimiter = rateLimit({
 });
 
 app.get('/api/health', (_req, res) => {
-  res.json({ success: true, message: 'Baby Power API is running' });
+  res.json({ success: true, message: `${brand.name} API is running` });
 });
 
 app.use('/api/auth', authRoutes);

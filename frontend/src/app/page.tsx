@@ -89,7 +89,7 @@ export default async function HomePage() {
         products={latestProducts.filter((p) => !featuredProducts.some((f) => f._id === p._id)).slice(0, 8)}
         label="Just In"
         title="Latest Arrivals"
-        subtitle="Fresh additions to the Baby Power catalogue this season"
+        subtitle="Fresh additions to the Little Star catalogue this season"
         className="bg-cream"
         dense
       />
@@ -153,7 +153,7 @@ export default async function HomePage() {
                 {homeStory?.title || 'Crafting Comfort for Little Ones'}
               </h2>
               <p className="mt-6 text-muted text-sm leading-[1.9]">
-                {homeStory?.content || 'Baby Power is a leading wholesale baby clothing manufacturer serving discerning retailers across the UK and Northern Ireland. From organic cotton bodysuits to cosy fleece sleepsuits, every garment reflects our commitment to quality, safety, and timeless design.'}
+                {homeStory?.content || 'Little Star is a leading wholesale baby clothing manufacturer serving discerning retailers across the UK and Northern Ireland. From organic cotton bodysuits to cosy fleece sleepsuits, every garment reflects our commitment to quality, safety, and timeless design.'}
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link href="/about"><Button variant="outline">About Us</Button></Link>
@@ -222,7 +222,7 @@ export default async function HomePage() {
           <div className="relative max-w-2xl mx-auto px-4 text-center">
             <p className="text-[10px] uppercase tracking-[0.35em] text-gold mb-5">Trade Partners Welcome</p>
             <h2 className="font-display text-4xl lg:text-5xl text-secondary tracking-wide leading-tight">
-              Ready to Stock Baby Power?
+              Ready to Stock Little Star?
             </h2>
             <p className="mt-5 text-muted text-sm leading-relaxed max-w-md mx-auto">
               Join our network of wholesale partners for exclusive pricing and access to our full catalogue.

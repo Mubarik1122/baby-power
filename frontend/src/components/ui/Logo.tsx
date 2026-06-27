@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { BRAND_NAME } from '@/lib/brand';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 
@@ -10,9 +11,9 @@ interface LogoProps {
 }
 
 const sizes = {
-  sm: { width: 120, height: 71, img: 'h-10 w-auto' },
-  md: { width: 150, height: 88, img: 'h-11 lg:h-12 w-auto' },
-  lg: { width: 180, height: 106, img: 'h-12 lg:h-14 w-auto' },
+  sm: { width: 120, height: 120, img: 'h-12 w-auto' },
+  md: { width: 150, height: 150, img: 'h-14 lg:h-16 w-auto' },
+  lg: { width: 180, height: 180, img: 'h-16 lg:h-[6.5rem] w-auto' },
 };
 
 export default function Logo({ className, size = 'md', href = '/', priority }: LogoProps) {
@@ -20,7 +21,7 @@ export default function Logo({ className, size = 'md', href = '/', priority }: L
   const image = (
     <Image
       src="/logo.png"
-      alt="Baby Power — Clothes and Accessories"
+      alt={`${BRAND_NAME} — Wholesale Baby Clothing`}
       width={s.width}
       height={s.height}
       className={cn(s.img, 'object-contain', className)}

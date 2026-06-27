@@ -16,7 +16,7 @@ type ContactExtras = {
 const defaultContact = {
   address: '123 Textile Lane, Manchester, M1 1AA, UK',
   phone: '+44 123 456 7890',
-  email: 'info@babypower.com',
+  email: 'info@littlestar.co.uk',
   hours: 'Mon – Fri: 9:00 AM – 6:00 PM GMT',
 };
 
@@ -26,13 +26,13 @@ export async function generateMetadata(): Promise<Metadata> {
     const page = res.data;
     return generateSEO({
       title: page.seo?.metaTitle || page.title,
-      description: page.seo?.metaDescription || 'Contact Baby Power for wholesale enquiries.',
+      description: page.seo?.metaDescription || 'Contact Little Star for wholesale enquiries.',
       path: '/contact',
     });
   } catch {
     return generateSEO({
       title: 'Contact Us',
-      description: 'Get in touch with Baby Power for wholesale enquiries.',
+      description: 'Get in touch with Little Star for wholesale enquiries.',
       path: '/contact',
     });
   }

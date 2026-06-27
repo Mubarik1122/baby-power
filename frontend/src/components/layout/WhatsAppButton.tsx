@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { BRAND_WHATSAPP_MESSAGE } from '@/lib/brand';
 import { getSettings } from '@/lib/api';
 
 function buildWhatsAppUrl(number: string, message: string) {
@@ -14,7 +15,7 @@ function resolveWhatsAppUrl(number: string, message: string) {
   const envNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '';
   const envMessage =
     process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE ||
-    'Hello, I have a question about Baby Power wholesale.';
+    BRAND_WHATSAPP_MESSAGE;
 
   return buildWhatsAppUrl(number || envNumber, message || envMessage);
 }

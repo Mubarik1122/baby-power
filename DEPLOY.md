@@ -1,4 +1,4 @@
-# Deploy Baby Power (Vercel + Render + MongoDB Atlas)
+# Deploy Little Star (Vercel + Render + MongoDB Atlas)
 
 Repo: https://github.com/Mubarik1122/baby-power
 
@@ -20,9 +20,9 @@ Repo: https://github.com/Mubarik1122/baby-power
 4. **Network Access** → **Add IP Address** → **Allow Access from Anywhere** (`0.0.0.0/0`) so Render can connect.
 5. **Database** → **Connect** → **Drivers** → copy connection string, e.g.:
    ```
-   mongodb+srv://DB_USER:DB_PASS@cluster0.xxxxx.mongodb.net/baby_power?retryWrites=true&w=majority
+   mongodb+srv://DB_USER:DB_PASS@cluster0.xxxxx.mongodb.net/little_star?retryWrites=true&w=majority
    ```
-   Replace `<password>` with your DB user password. Database name: `baby_power`.
+   Replace `<password>` with your DB user password. Database name: `little_star`.
 
 6. **Seed production data** (once, from your Mac):
    ```bash
@@ -57,7 +57,7 @@ Repo: https://github.com/Mubarik1122/baby-power
    | `JWT_SECRET` | Long random string (32+ chars) |
    | `JWT_EXPIRES_IN` | `7d` |
    | `FRONTEND_URL` | `https://babypowers.co.uk` (or your Vercel URL first) |
-   | `ADMIN_EMAIL` | `admin@babypower.com` |
+   | `ADMIN_EMAIL` | `admin@littlestar.co.uk` |
    | `ADMIN_PASSWORD` | Strong production password |
 
 5. Deploy. Note your API URL, e.g. `https://baby-power-api.onrender.com`.

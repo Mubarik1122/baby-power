@@ -8,14 +8,14 @@ export async function generateMetadata(): Promise<Metadata> {
     const { data } = await getPageBySlug('shipping-policy');
     return generateSEO({
       title: data.seo?.metaTitle || data.title,
-      description: data.seo?.metaDescription || 'Shipping policy for Baby Power wholesale customers.',
+      description: data.seo?.metaDescription || 'Shipping policy for Little Star wholesale customers.',
       keywords: data.seo?.keywords,
       path: '/shipping-policy',
     });
   } catch {
     return generateSEO({
       title: 'Shipping Policy',
-      description: 'Shipping policy for Baby Power wholesale customers.',
+      description: 'Shipping policy for Little Star wholesale customers.',
       path: '/shipping-policy',
     });
   }

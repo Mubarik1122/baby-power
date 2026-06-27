@@ -1,7 +1,7 @@
 {
-  "name": "baby-power-api",
+  "name": "little-star-api",
   "version": "1.0.0",
-  "description": "Baby Power Wholesale API",
+  "description": "Little Star Wholesale API",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
