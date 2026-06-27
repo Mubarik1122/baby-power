@@ -1,6 +1,7 @@
 import { clearAdminSession } from './auth';
+import { getApiOrigin, getApiUrl } from './api-config';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+const API_URL = getApiUrl();
 
 function hasAuthHeader(headers?: HeadersInit): boolean {
   if (!headers) return false;
@@ -24,6 +25,18 @@ async function fetchAPI<T>(
     },
     ...(isServer && isGet ? { next: { revalidate: 60 } } : { cache: isGet ? 'no-store' : 'no-store' }),
   });
+
+  const contentType = res.headers.get('content-type') || '';
+  if (!contentType.includes('application/json')) {
+    if (!res.ok) {
+      throw new Error(
+        res.status === 404
+          ? `API not found (${API_URL}${endpoint}). Check NEXT_PUBLIC_API_URL includes /api on Vercel.`
+          : `API error (${res.status}). Expected JSON from the backend.`
+      );
+    }
+    throw new Error('API returned an unexpected response. Check NEXT_PUBLIC_API_URL on Vercel.');
+  }
 
   const data = await res.json();
   if (!res.ok) {
@@ -200,6 +213,5 @@ export const updateSettings = (token: string, data: Record<string, string | numb
 export function getImageUrl(path: string) {
   if (!path) return '';
   if (path.startsWith('http')) return path;
-  const base = (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api').replace('/api', '');
-  return `${base}${path}`;
+  return `${getApiOrigin()}${path}`;
 }

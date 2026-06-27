@@ -6,7 +6,7 @@ Repo: https://github.com/Mubarik1122/baby-power
 
 | Service | Host | URL (example) |
 |---------|------|----------------|
-| Frontend (Next.js) | [Vercel](https://vercel.com) | `https://babypowers.co.uk` |
+| Frontend (Next.js) | [Vercel](https://vercel.com) | `https://www.littlestarwholesale.com` |
 | Backend (Express) | [Render](https://render.com) | `https://baby-power-api.onrender.com` |
 | Database | [MongoDB Atlas](https://cloud.mongodb.com) | Atlas connection string |
 
@@ -56,7 +56,7 @@ Repo: https://github.com/Mubarik1122/baby-power
    | `MONGODB_URI` | Your Atlas connection string |
    | `JWT_SECRET` | Long random string (32+ chars) |
    | `JWT_EXPIRES_IN` | `7d` |
-   | `FRONTEND_URL` | `https://babypowers.co.uk` (or your Vercel URL first) |
+   | `FRONTEND_URL` | `https://www.littlestarwholesale.com` (no trailing slash) |
    | `ADMIN_EMAIL` | `admin@littlestar.co.uk` |
    | `ADMIN_PASSWORD` | Strong production password |
 
@@ -84,8 +84,8 @@ Vercel has **no separate password** — sign in with the same **GitHub** account
 
    | Key | Value |
    |-----|--------|
-   | `NEXT_PUBLIC_API_URL` | `https://baby-power-api.onrender.com/api` |
-   | `NEXT_PUBLIC_SITE_URL` | `https://babypowers.co.uk` |
+   | `NEXT_PUBLIC_API_URL` | `https://baby-power-api.onrender.com/api` ← **must end with `/api`** |
+   | `NEXT_PUBLIC_SITE_URL` | `https://www.littlestarwholesale.com` |
 
 5. **Deploy**.
 
@@ -93,7 +93,28 @@ Vercel has **no separate password** — sign in with the same **GitHub** account
 
 ---
 
-## Step 4 — Custom domain (babypowers.co.uk)
+## Step 4 — Custom domain (littlestarwholesale.com)
+
+### Vercel (website)
+1. Vercel project → **Settings** → **Domains** → add `littlestarwholesale.com` and `www.littlestarwholesale.com`.
+2. Point DNS at your registrar to Vercel (A/CNAME records shown in Vercel).
+
+### After domain change — checklist
+
+| Where | Variable | Value |
+|-------|----------|--------|
+| **Vercel** | `NEXT_PUBLIC_API_URL` | `https://baby-power-api.onrender.com/api` |
+| **Vercel** | `NEXT_PUBLIC_SITE_URL` | `https://www.littlestarwholesale.com` |
+| **Render** | `FRONTEND_URL` | `https://www.littlestarwholesale.com` |
+
+Redeploy **both** Vercel and Render after changing env vars.
+
+Test API: `https://baby-power-api.onrender.com/api/health`  
+Test login path: `POST https://baby-power-api.onrender.com/api/auth/login` (not `/auth/login`).
+
+---
+
+## Step 4 (legacy) — babypowers.co.uk
 
 ### Vercel (website)
 1. Vercel project → **Settings** → **Domains** → add `babypowers.co.uk` and `www.babypowers.co.uk`.

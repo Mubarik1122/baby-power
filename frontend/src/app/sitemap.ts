@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next';
+import { getApiUrl } from '@/lib/api-config';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+const API_URL = getApiUrl();
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
