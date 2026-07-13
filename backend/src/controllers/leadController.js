@@ -82,7 +82,7 @@ exports.createQuotationLead = async (req, res) => {
 
 exports.getLeads = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 20;
+  const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
 
   const filter = {};
