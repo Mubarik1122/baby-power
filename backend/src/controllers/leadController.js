@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Lead = require('../models/Lead');
 const {
   sendLeadNotification,
@@ -49,6 +50,9 @@ exports.createQuotationLead = async (req, res) => {
     return res.status(400).json({ success: false, message: 'Quantity is required' });
   }
 
+  const productRef =
+    productId && mongoose.Types.ObjectId.isValid(productId) ? productId : undefined;
+
   const lead = await Lead.create({
     type: 'quotation',
     name,
@@ -62,7 +66,7 @@ exports.createQuotationLead = async (req, res) => {
     selectedSize: selectedSize || '',
     selectedColor: selectedColor || '',
     notes: notes || '',
-    product: productId || undefined,
+    product: productRef,
     productName: productName || '',
     productSku: productSku || '',
     category: category || '',

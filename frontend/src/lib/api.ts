@@ -17,14 +17,21 @@ async function fetchAPI<T>(
 ): Promise<T> {
   const isGet = !options.method || options.method === 'GET';
   const isServer = typeof window === 'undefined';
-  const res = await fetch(`${API_URL}${endpoint}`, {
-    ...options,
-    headers: {
-      ...(isGet ? {} : { 'Content-Type': 'application/json' }),
-      ...options.headers,
-    },
-    ...(isServer && isGet ? { next: { revalidate: 60 } } : { cache: isGet ? 'no-store' : 'no-store' }),
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}${endpoint}`, {
+      ...options,
+      headers: {
+        ...(isGet ? {} : { 'Content-Type': 'application/json' }),
+        ...options.headers,
+      },
+      ...(isServer && isGet ? { next: { revalidate: 60 } } : { cache: 'no-store' }),
+    });
+  } catch {
+    throw new Error(
+      'Unable to reach the server. Please try again in a moment — the API may be waking up.'
+    );
+  }
 
   const contentType = res.headers.get('content-type') || '';
   if (!contentType.includes('application/json')) {
@@ -32,7 +39,9 @@ async function fetchAPI<T>(
       throw new Error(
         res.status === 404
           ? `API not found (${API_URL}${endpoint}). Check NEXT_PUBLIC_API_URL includes /api on Vercel.`
-          : `API error (${res.status}). Expected JSON from the backend.`
+          : res.status === 502 || res.status === 503
+            ? 'Server is temporarily unavailable. Please try again in a moment.'
+            : `API error (${res.status}). Expected JSON from the backend.`
       );
     }
     throw new Error('API returned an unexpected response. Check NEXT_PUBLIC_API_URL on Vercel.');

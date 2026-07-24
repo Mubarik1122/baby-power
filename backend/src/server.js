@@ -9,6 +9,7 @@ const path = require('path');
 const connectDB = require('./config/db');
 const { ensureContentPages } = require('./utils/ensureContentPages');
 const { ensureSiteSettings } = require('./utils/ensureSiteSettings');
+const { repairCatalogue } = require('./utils/repairCatalogue');
 const errorHandler = require('./middleware/errorHandler');
 
 const authRoutes = require('./routes/authRoutes');
@@ -22,7 +23,14 @@ const bannerRoutes = require('./routes/bannerRoutes');
 const settingsRoutes = require('./routes/settingsRoutes');
 
 connectDB()
-  .then(() => Promise.all([ensureContentPages(), ensureSiteSettings()]))
+  .then(async () => {
+    await Promise.all([ensureContentPages(), ensureSiteSettings()]);
+    // One-shot: set REPAIR_CATALOGUE=true on Render, redeploy, then remove it.
+    if (process.env.REPAIR_CATALOGUE === 'true') {
+      await repairCatalogue({ connect: false });
+      console.log('REPAIR_CATALOGUE finished — remove this env var from Render.');
+    }
+  })
   .catch((err) => {
     console.error('Failed to ensure default content:', err.message);
   });
@@ -69,7 +77,9 @@ app.use(cors({
     if (isAllowedOrigin(origin)) {
       callback(null, origin || true);
     } else {
-      callback(new Error(`CORS blocked for origin: ${origin}`));
+      // Reject without throwing — a thrown error becomes a 500 without CORS
+      // headers, which browsers surface as "Failed to fetch".
+      callback(null, false);
     }
   },
   credentials: true,
@@ -82,13 +92,21 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 200,
+  standardHeaders: true,
+  legacyHeaders: false,
+  // Render sits behind a proxy; avoid hard-failing on forwarded-for checks.
+  validate: { xForwardedForHeader: false },
   message: { success: false, message: 'Too many requests, please try again later' },
 });
 app.use('/api/', limiter);
 
 const formLimiter = rateLimit({
   windowMs: 60 * 60 * 1000,
-  max: 10,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skip: (req) => req.method === 'OPTIONS',
+  validate: { xForwardedForHeader: false },
   message: { success: false, message: 'Too many form submissions, please try again later' },
 });
 

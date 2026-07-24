@@ -39,12 +39,13 @@ const leadSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-leadSchema.pre('save', async function (next) {
-  if (!this.leadId) {
-    const count = await mongoose.model('Lead').countDocuments();
-    this.leadId = `BP-${String(count + 1).padStart(5, '0')}`;
-  }
-  next();
+leadSchema.pre('save', async function () {
+  if (this.leadId) return;
+  // Avoid async + next() (breaks under Mongoose 8). Use a unique id that
+  // does not race on countDocuments under concurrent form submits.
+  const stamp = Date.now().toString(36).toUpperCase();
+  const rand = Math.random().toString(36).slice(2, 6).toUpperCase();
+  this.leadId = `BP-${stamp}-${rand}`;
 });
 
 module.exports = mongoose.model('Lead', leadSchema);
