@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Menu, X, Search, User, ChevronDown } from 'lucide-react';
+import { Menu, X, Search, ChevronDown } from 'lucide-react';
 import { getCategories } from '@/lib/api';
 import { Category } from '@/lib/types';
 import Logo from '@/components/ui/Logo';
@@ -113,13 +113,6 @@ export default function Header() {
                 >
                   <Search className="w-[18px] h-[18px]" />
                 </button>
-                <Link
-                  href="/admin/login"
-                  className="hidden sm:flex items-center gap-1.5 text-[13px] text-secondary hover:text-primary transition-colors duration-300"
-                >
-                  <User className="w-4 h-4" />
-                  <span>Login</span>
-                </Link>
                 <Link
                   href="/contact"
                   className="hidden sm:inline-flex text-[10px] uppercase tracking-[0.2em] bg-primary text-white px-5 py-2.5 hover:bg-primary-dark transition-all duration-300 hover:-translate-y-px shadow-[0_4px_14px_-4px_rgba(86,196,196,0.5)]"

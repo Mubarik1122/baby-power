@@ -17,7 +17,6 @@ const footerLinks = {
     { href: '/about', label: 'About Us' },
     { href: '/contact', label: 'Contact Us' },
     { href: '/faq', label: 'FAQ' },
-    { href: '/admin/login', label: 'Login' },
     { href: '/contact', label: 'Request Account' },
   ],
   policies: [
